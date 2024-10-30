@@ -1,0 +1,97 @@
+/* Estilos gerais */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #f5f5f5;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0; /* Remover bordas arredondadas para cobrir toda a altura */
+}
+
+/* Logo */
+.logo-container {
+    margin-bottom: 1rem;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+/* Texto de descrição */
+.description-text {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+/* Formulário */
+.form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+/* Botão */
+.button-container {
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Rodapé */
+.footer-text {
+    margin-top: auto;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.footer-text strong {
+    font-weight: bold;
+}
+
+.powered-by {
+    font-size: 0.8rem;
+    color: #aaa;
+}

@@ -1,0 +1,117 @@
+/* Estilos gerais */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #f5f5f5;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logo */
+.logo-container {
+    margin-bottom: 1rem;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+/* Texto de instrução */
+.description-text {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+/* Campo de exibição */
+.input-group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.input-label {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 0.3rem;
+}
+
+.display-box {
+    width: 100%;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+}
+
+.main-password {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.highlighted {
+    font-weight: bold;
+}
+
+/* Tempo estimado */
+.estimated-time {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0 1.5rem;
+}
+
+/* Botão */
+.button-container {
+    width: 100%;
+    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cancel-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Rodapé */
+.footer-text {
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-text strong {
+    font-weight: bold;
+}
+
+.powered-by {
+    font-size: 0.8rem;
+    color: #aaa;
+}
