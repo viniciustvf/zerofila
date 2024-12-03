@@ -25,8 +25,8 @@ import { AuthGuard } from '../iam/login/decorators/auth-guard.decorator';
 import { AuthType } from '../iam/login/enums/auth-type.enum';
 
 @ApiTags('empresa')
-@ApiBearerAuth()
-@AuthGuard(AuthType.Bearer)
+//@ApiBearerAuth()
+//@AuthGuard(AuthType.Bearer)
 @Controller('empresa')
 export class EmpresaController {
   constructor(private readonly empresaService: EmpresaService) {}

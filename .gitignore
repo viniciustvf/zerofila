@@ -1,0 +1,46 @@
+# Node.js
+node_modules/
+dist/
+.env
+.env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.js
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Build files
+dist/
+coverage/
+.nyc_output/
+.cache/
+out/
+
+# Misc
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Testing files
+coverage/
+.nyc_output/
+

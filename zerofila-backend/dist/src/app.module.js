@@ -16,6 +16,7 @@ const empresa_module_1 = require("./empresa/empresa.module");
 const throttler_1 = require("@nestjs/throttler");
 const iam_module_1 = require("./iam/iam.module");
 const validation_schema_env_1 = require("./helpers/validation-schema-env");
+const fila_module_1 = require("./fila/fila.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -59,6 +60,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             iam_module_1.IamModule,
             empresa_module_1.EmpresaModule,
+            fila_module_1.FilaModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

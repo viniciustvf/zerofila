@@ -19,8 +19,6 @@ const empresa_service_1 = require("./empresa.service");
 const empresa_profile_dto_1 = require("./dto/empresa-profile.dto");
 const empresa_update_dto_1 = require("./dto/empresa-update.dto");
 const swagger_1 = require("@nestjs/swagger");
-const auth_guard_decorator_1 = require("../iam/login/decorators/auth-guard.decorator");
-const auth_type_enum_1 = require("../iam/login/enums/auth-type.enum");
 let EmpresaController = class EmpresaController {
     constructor(empresaService) {
         this.empresaService = empresaService;
@@ -153,8 +151,6 @@ __decorate([
 ], EmpresaController.prototype, "deleteEmpresa", null);
 exports.EmpresaController = EmpresaController = __decorate([
     (0, swagger_1.ApiTags)('empresa'),
-    (0, swagger_1.ApiBearerAuth)(),
-    (0, auth_guard_decorator_1.AuthGuard)(auth_type_enum_1.AuthType.Bearer),
     (0, common_1.Controller)('empresa'),
     __metadata("design:paramtypes", [empresa_service_1.EmpresaService])
 ], EmpresaController);

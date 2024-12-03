@@ -1,0 +1,41 @@
+<p-card class="form-card">
+    <div class="logo-container">
+        <img src="assets/logo-sushi.png" alt="Logo Sushi" class="logo">
+    </div>
+    <p class="description-text">Para cadastrar uma nova fila, insira o nome e a descrição da fila.</p>
+    
+    <form #form="ngForm" class="form-container">
+        <div class="input-group">
+            <input 
+                ngModel 
+                pInputText 
+                type="text" 
+                id="queueName" 
+                name="queueName" 
+                placeholder="Nome da Fila"
+                required
+                class="input-field"
+            >
+        </div>
+        <div class="input-group">
+            <input 
+                ngModel 
+                pInputText 
+                type="text" 
+                id="queueDescription" 
+                name="queueDescription" 
+                placeholder="Descrição da Fila (Opcional)"
+                class="input-field"
+            >
+        </div>
+        <div class="button-container">
+            <button pButton type="button" label="Cadastrar Fila" class="submit-button"></button>
+        </div>
+    </form>
+    
+    <div class="footer-text">
+        <p>zero <strong>fila</strong></p>
+        <p class="powered-by">Powered by H&V</p>
+    </div>
+</p-card>
+

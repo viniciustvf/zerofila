@@ -12,9 +12,9 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, fastifyAdapter);
     const configService = app.get(config_1.ConfigService);
     await fastifyAdapter.register(require('@fastify/cors'), {
-        origin: true || [configService.get('ENDPOINT_URL')],
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        allowedHeaders: 'Content-Type, Accept, Access-Control-Allow-Origin, Access-Control-Allow-Methods',
+        origin: true,
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+        allowedHeaders: '*',
         credentials: true,
     });
     app.setGlobalPrefix('api');
