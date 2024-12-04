@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { AppRoutingModule, routes } from './app.routes';
+import { routes } from './app.routes';  // Apenas importa as rotas diretamente, não a constante AppRoutingModule
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
@@ -14,22 +14,15 @@ import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { BrMaskerModule } from 'br-mask';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
-
-// const maskConfigFunction: () => Partial<IConfig> = () => {
-//   return {
-//     validation: false,
-//   };
-// };
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes),  // Passando apenas as rotas aqui
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     provideClientHydration(),
     importProvidersFrom(ToastModule),
-    importProvidersFrom(AppRoutingModule),
+    importProvidersFrom(BrMaskerModule),  // Adicionando o BrMaskerModule aqui se for necessário para máscaras
     provideEnvironmentNgxMask(),
     { provide: MessageService, useClass: MessageService },
     TableModule,

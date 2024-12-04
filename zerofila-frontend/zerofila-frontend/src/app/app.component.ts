@@ -8,8 +8,9 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
   standalone: true,
   imports: [RouterOutlet, ToastModule, NgxMaskDirective, NgxMaskPipe],
   template: `
-    <router-outlet/>
-    <p-toast/>`,
+    <router-outlet></router-outlet>
+    <p-toast></p-toast> <!-- Componente de Toast do PrimeNG -->
+  `,
 })
 export class AppComponent {
   title = 'zerofila-frontend';

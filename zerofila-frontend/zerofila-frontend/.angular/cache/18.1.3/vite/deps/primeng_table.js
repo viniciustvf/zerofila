@@ -1,14 +1,7 @@
 import {
   Calendar,
   CalendarModule
-} from "./chunk-QM62CFBE.js";
-import {
-  Dropdown,
-  DropdownModule,
-  Scroller,
-  ScrollerModule
-} from "./chunk-A6BDIINQ.js";
-import "./chunk-KDN2B6DV.js";
+} from "./chunk-GUGC3CAB.js";
 import {
   InputNumber,
   InputNumberModule
@@ -17,6 +10,13 @@ import {
   InputText,
   InputTextModule
 } from "./chunk-ROS3ESI7.js";
+import {
+  Dropdown,
+  DropdownModule,
+  Scroller,
+  ScrollerModule
+} from "./chunk-LIHO4437.js";
+import "./chunk-KDN2B6DV.js";
 import {
   CheckIcon
 } from "./chunk-UNJ5OCLX.js";
@@ -35,6 +35,10 @@ import {
   NgControlStatus,
   NgModel
 } from "./chunk-K6SKG3P5.js";
+import {
+  DomSanitizer
+} from "./chunk-XDEEMJ4V.js";
+import "./chunk-BMNRGEL4.js";
 import {
   ButtonDirective,
   ButtonModule
@@ -2210,7 +2214,7 @@ function SelectButton_div_2_Template(rf, ctx) {
     const ctx_r4 = ɵɵnextContext();
     ɵɵclassMap(option_r3.styleClass);
     ɵɵproperty("role", ctx_r4.multiple ? "checkbox" : "radio")("ngClass", ɵɵpureFunction3(14, _c12, ctx_r4.isSelected(option_r3), ctx_r4.disabled || ctx_r4.isOptionDisabled(option_r3), option_r3.icon && !ctx_r4.getOptionLabel(option_r3)))("autofocus", ctx_r4.autofocus);
-    ɵɵattribute("tabindex", i_r4 === ctx_r4.focusedIndex ? "0" : "-1")("aria-label", option_r3.label)("aria-checked", ctx_r4.isSelected(option_r3))("aria-disabled", ctx_r4.optionDisabled)("title", option_r3.title)("aria-labelledby", ctx_r4.getOptionLabel(option_r3))("data-pc-section", "button");
+    ɵɵattribute("tabindex", i_r4 === ctx_r4.focusedIndex && !ctx_r4.disabled ? "0" : "-1")("aria-label", option_r3.label)("aria-checked", ctx_r4.isSelected(option_r3))("aria-disabled", ctx_r4.optionDisabled)("title", option_r3.title)("aria-labelledby", ctx_r4.getOptionLabel(option_r3))("data-pc-section", "button");
     ɵɵadvance();
     ɵɵproperty("ngIf", !ctx_r4.itemTemplate)("ngIfElse", customcontent_r8);
   }
@@ -2522,7 +2526,7 @@ var SelectButton = class _SelectButton {
             <div
                 *ngFor="let option of options; let i = index"
                 pRipple
-                [attr.tabindex]="i === focusedIndex ? '0' : '-1'"
+                [attr.tabindex]="i === focusedIndex && !disabled ? '0' : '-1'"
                 [attr.aria-label]="option.label"
                 [role]="multiple ? 'checkbox' : 'radio'"
                 [attr.aria-checked]="isSelected(option)"
@@ -3508,7 +3512,7 @@ function Table_p_scroller_7_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r0 = ɵɵnextContext();
     ɵɵstyleMap(ɵɵpureFunction1(15, _c11, ctx_r0.scrollHeight !== "flex" ? ctx_r0.scrollHeight : void 0));
-    ɵɵproperty("items", ctx_r0.processedData)("columns", ctx_r0.columns)("scrollHeight", ctx_r0.scrollHeight !== "flex" ? void 0 : "100%")("itemSize", ctx_r0.virtualScrollItemSize || ctx_r0._virtualRowHeight)("step", ctx_r0.rows)("delay", ctx_r0.lazy ? ctx_r0.virtualScrollDelay : 0)("inline", true)("lazy", ctx_r0.lazy)("loaderDisabled", true)("showSpacer", false)("showLoader", ctx_r0.loadingBodyTemplate)("options", ctx_r0.virtualScrollOptions)("autoSize", true);
+    ɵɵproperty("items", ctx_r0.processedData)("columns", ctx_r0.columns)("scrollHeight", ctx_r0.scrollHeight !== "flex" ? void 0 : "100%")("itemSize", ctx_r0.virtualScrollItemSize || ctx_r0._virtualRowHeight)("step", ctx_r0.rows)("delay", ctx_r0.lazy ? ctx_r0.virtualScrollDelay : 0)("inline", true)("autoSize", true)("lazy", ctx_r0.lazy)("loaderDisabled", true)("showSpacer", false)("showLoader", ctx_r0.loadingBodyTemplate)("options", ctx_r0.virtualScrollOptions);
   }
 }
 function Table_ng_container_8_ng_container_1_Template(rf, ctx) {
@@ -3932,7 +3936,7 @@ function TableBody_ng_container_0_ng_template_1_Template(rf, ctx) {
     const rowData_r2 = ctx.$implicit;
     const rowIndex_r3 = ctx.index;
     const ctx_r3 = ɵɵnextContext(2);
-    ɵɵproperty("ngIf", ctx_r3.dt.groupHeaderTemplate && !ctx_r3.dt.virtualScroll && ctx_r3.dt.rowGroupMode === "subheader" && ctx_r3.shouldRenderRowGroupHeader(ctx_r3.value, rowData_r2, rowIndex_r3));
+    ɵɵproperty("ngIf", ctx_r3.dt.groupHeaderTemplate && !ctx_r3.dt.virtualScroll && ctx_r3.dt.rowGroupMode === "subheader" && ctx_r3.shouldRenderRowGroupHeader(ctx_r3.value, rowData_r2, ctx_r3.getRowIndex(rowIndex_r3)));
     ɵɵadvance();
     ɵɵproperty("ngIf", ctx_r3.dt.rowGroupMode !== "rowspan");
     ɵɵadvance();
@@ -4914,7 +4918,9 @@ var TableService = class _TableService {
   valueSource = new Subject();
   totalRecordsSource = new Subject();
   columnsSource = new Subject();
+  isHeaderCheckboxSelection = new Subject();
   sortSource$ = this.sortSource.asObservable();
+  isHeaderCheckboxSelection$ = this.isHeaderCheckboxSelection.asObservable();
   selectionSource$ = this.selectionSource.asObservable();
   contextMenuSource$ = this.contextMenuSource.asObservable();
   valueSource$ = this.valueSource.asObservable();
@@ -4937,6 +4943,9 @@ var TableService = class _TableService {
   }
   onColumnsChange(columns) {
     this.columnsSource.next(columns);
+  }
+  onHeaderCheckboxSelection(value) {
+    this.isHeaderCheckboxSelection.next(value);
   }
   static ɵfac = function TableService_Factory(ɵt) {
     return new (ɵt || _TableService)();
@@ -4962,6 +4971,7 @@ var Table = class _Table {
   filterService;
   overlayService;
   config;
+  domSanitizer;
   /**
    * An array of objects to represent dynamic columns that are frozen.
    * @group Props
@@ -5687,7 +5697,7 @@ var Table = class _Table {
   styleElement;
   responsiveStyleElement;
   window;
-  constructor(document2, platformId, renderer, el, zone, tableService, cd, filterService, overlayService, config) {
+  constructor(document2, platformId, renderer, el, zone, tableService, cd, filterService, overlayService, config, domSanitizer) {
     this.document = document2;
     this.platformId = platformId;
     this.renderer = renderer;
@@ -5698,6 +5708,7 @@ var Table = class _Table {
     this.filterService = filterService;
     this.overlayService = overlayService;
     this.config = config;
+    this.domSanitizer = domSanitizer;
     this.window = this.document.defaultView;
   }
   ngOnInit() {
@@ -6017,8 +6028,9 @@ var Table = class _Table {
       if (this.restoringSort) {
         this.restoringSort = false;
       }
-      this.lazy && this.onLazyLoad.emit(this.createLazyLoadMetadata());
-      if (this.value) {
+      if (this.lazy) {
+        this.onLazyLoad.emit(this.createLazyLoadMetadata());
+      } else if (this.value) {
         if (this.customSort) {
           this.sortFunction.emit({
             data: this.value,
@@ -6026,7 +6038,7 @@ var Table = class _Table {
             field,
             order
           });
-        } else if (!this.lazy) {
+        } else {
           this.value.sort((data1, data2) => {
             let value1 = ObjectUtils.resolveFieldData(data1, field);
             let value2 = ObjectUtils.resolveFieldData(data2, field);
@@ -6040,7 +6052,7 @@ var Table = class _Table {
           });
           this._value = [...this.value];
         }
-        if ((!this.lazy || this.customSort) && this.hasFilter()) {
+        if (this.hasFilter()) {
           this._filter();
         }
       }
@@ -6058,21 +6070,22 @@ var Table = class _Table {
       else if (this.multiSortMeta[0].field !== this.groupRowsBy) this._multiSortMeta = [this.getGroupRowsMeta(), ...this._multiSortMeta];
     }
     if (this.multiSortMeta) {
-      this.lazy && this.onLazyLoad.emit(this.createLazyLoadMetadata());
-      if (this.value) {
+      if (this.lazy) {
+        this.onLazyLoad.emit(this.createLazyLoadMetadata());
+      } else if (this.value) {
         if (this.customSort) {
           this.sortFunction.emit({
             data: this.value,
             mode: this.sortMode,
             multiSortMeta: this.multiSortMeta
           });
-        } else if (!this.lazy) {
+        } else {
           this.value.sort((data1, data2) => {
             return this.multisortField(data1, data2, this.multiSortMeta, 0);
           });
           this._value = [...this.value];
         }
-        if ((!this.lazy || this.customSort) && this.hasFilter()) {
+        if (this.hasFilter()) {
           this._filter();
         }
       }
@@ -7040,7 +7053,7 @@ var Table = class _Table {
                 }
             `;
     });
-    this.renderer.setProperty(this.styleElement, "innerHTML", innerHTML);
+    this.renderer.setProperty(this.styleElement, "innerHTML", this.domSanitizer.bypassSecurityTrustStyle(innerHTML));
   }
   onRowDragStart(event, index) {
     this.rowDragging = true;
@@ -7207,7 +7220,11 @@ var Table = class _Table {
   }
   saveColumnWidths(state) {
     let widths = [];
-    let headers = DomHandler.find(this.containerViewChild?.nativeElement, ".p-datatable-thead > tr > th");
+    let headers = [];
+    const container = this.containerViewChild?.nativeElement;
+    if (container) {
+      headers = DomHandler.find(container, ".p-datatable-thead > tr > th");
+    }
     headers.forEach((header) => widths.push(DomHandler.getOuterWidth(header)));
     state.columnWidths = widths.join(",");
     if (this.columnResizeMode === "expand") {
@@ -7237,7 +7254,7 @@ var Table = class _Table {
                         }
                     `;
         });
-        this.styleElement.innerHTML = innerHTML;
+        this.styleElement.textContent = innerHTML;
       }
     }
   }
@@ -7327,7 +7344,7 @@ var Table = class _Table {
         }
     }
     `;
-        this.renderer.setProperty(this.responsiveStyleElement, "innerHTML", innerHTML);
+        this.renderer.setProperty(this.responsiveStyleElement, "innerHTML", this.domSanitizer.bypassSecurityTrustStyle(innerHTML));
       }
     }
   }
@@ -7354,7 +7371,7 @@ var Table = class _Table {
     return [this.paginatorStyleClass, className].filter((c) => !!c).join(" ").trim();
   }
   static ɵfac = function Table_Factory(ɵt) {
-    return new (ɵt || _Table)(ɵɵdirectiveInject(DOCUMENT), ɵɵdirectiveInject(PLATFORM_ID), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(NgZone), ɵɵdirectiveInject(TableService), ɵɵdirectiveInject(ChangeDetectorRef), ɵɵdirectiveInject(FilterService), ɵɵdirectiveInject(OverlayService), ɵɵdirectiveInject(PrimeNGConfig));
+    return new (ɵt || _Table)(ɵɵdirectiveInject(DOCUMENT), ɵɵdirectiveInject(PLATFORM_ID), ɵɵdirectiveInject(Renderer2), ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(NgZone), ɵɵdirectiveInject(TableService), ɵɵdirectiveInject(ChangeDetectorRef), ɵɵdirectiveInject(FilterService), ɵɵdirectiveInject(OverlayService), ɵɵdirectiveInject(PrimeNGConfig), ɵɵdirectiveInject(DomSanitizer));
   };
   static ɵcmp = ɵɵdefineComponent({
     type: _Table,
@@ -7510,7 +7527,7 @@ var Table = class _Table {
     features: [ɵɵProvidersFeature([TableService]), ɵɵInputTransformsFeature, ɵɵNgOnChangesFeature],
     decls: 16,
     vars: 22,
-    consts: [["container", ""], ["wrapper", ""], ["buildInTable", ""], ["scroller", ""], ["table", ""], ["thead", ""], ["tfoot", ""], ["resizeHelper", ""], ["reorderIndicatorUp", ""], ["reorderIndicatorDown", ""], [3, "ngStyle", "ngClass"], ["class", "p-datatable-loading-overlay p-component-overlay", 4, "ngIf"], ["class", "p-datatable-header", 4, "ngIf"], [3, "rows", "first", "totalRecords", "pageLinkSize", "alwaysShow", "rowsPerPageOptions", "templateLeft", "templateRight", "dropdownAppendTo", "dropdownScrollHeight", "currentPageReportTemplate", "showFirstLastIcon", "dropdownItemTemplate", "showCurrentPageReport", "showJumpToPageDropdown", "showJumpToPageInput", "showPageLinks", "styleClass", "locale", "onPageChange", 4, "ngIf"], [1, "p-datatable-wrapper", 3, "ngStyle"], [3, "items", "columns", "style", "scrollHeight", "itemSize", "step", "delay", "inline", "lazy", "loaderDisabled", "showSpacer", "showLoader", "options", "autoSize", "onLazyLoad", 4, "ngIf"], [4, "ngIf"], ["class", "p-datatable-footer", 4, "ngIf"], ["class", "p-column-resizer-helper", 3, "ngStyle", 4, "ngIf"], ["class", "p-datatable-reorder-indicator-up", 3, "ngStyle", 4, "ngIf"], ["class", "p-datatable-reorder-indicator-down", 3, "ngStyle", 4, "ngIf"], [1, "p-datatable-loading-overlay", "p-component-overlay"], [3, "class", 4, "ngIf"], [3, "spin", "styleClass", 4, "ngIf"], ["class", "p-datatable-loading-icon", 4, "ngIf"], [3, "spin", "styleClass"], [1, "p-datatable-loading-icon"], [4, "ngTemplateOutlet"], [1, "p-datatable-header"], [3, "onPageChange", "rows", "first", "totalRecords", "pageLinkSize", "alwaysShow", "rowsPerPageOptions", "templateLeft", "templateRight", "dropdownAppendTo", "dropdownScrollHeight", "currentPageReportTemplate", "showFirstLastIcon", "dropdownItemTemplate", "showCurrentPageReport", "showJumpToPageDropdown", "showJumpToPageInput", "showPageLinks", "styleClass", "locale"], ["pTemplate", "dropdownicon"], ["pTemplate", "firstpagelinkicon"], ["pTemplate", "previouspagelinkicon"], ["pTemplate", "lastpagelinkicon"], ["pTemplate", "nextpagelinkicon"], [3, "onLazyLoad", "items", "columns", "scrollHeight", "itemSize", "step", "delay", "inline", "lazy", "loaderDisabled", "showSpacer", "showLoader", "options", "autoSize"], ["pTemplate", "content"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["role", "table", 3, "ngClass", "ngStyle"], ["role", "rowgroup", 1, "p-datatable-thead"], ["role", "rowgroup", "class", "p-datatable-tbody p-datatable-frozen-tbody", 3, "value", "frozenRows", "pTableBody", "pTableBodyTemplate", "frozen", 4, "ngIf"], ["role", "rowgroup", 1, "p-datatable-tbody", 3, "ngClass", "ngStyle", "value", "pTableBody", "pTableBodyTemplate", "scrollerOptions"], ["role", "rowgroup", "class", "p-datatable-scroller-spacer", 3, "ngStyle", 4, "ngIf"], ["role", "rowgroup", "class", "p-datatable-tfoot", 4, "ngIf"], ["role", "rowgroup", 1, "p-datatable-tbody", "p-datatable-frozen-tbody", 3, "value", "frozenRows", "pTableBody", "pTableBodyTemplate", "frozen"], ["role", "rowgroup", 1, "p-datatable-scroller-spacer", 3, "ngStyle"], ["role", "rowgroup", 1, "p-datatable-tfoot"], [1, "p-datatable-footer"], [1, "p-column-resizer-helper", 3, "ngStyle"], [1, "p-datatable-reorder-indicator-up", 3, "ngStyle"], [1, "p-datatable-reorder-indicator-down", 3, "ngStyle"]],
+    consts: [["container", ""], ["wrapper", ""], ["buildInTable", ""], ["scroller", ""], ["table", ""], ["thead", ""], ["tfoot", ""], ["resizeHelper", ""], ["reorderIndicatorUp", ""], ["reorderIndicatorDown", ""], [3, "ngStyle", "ngClass"], ["class", "p-datatable-loading-overlay p-component-overlay", 4, "ngIf"], ["class", "p-datatable-header", 4, "ngIf"], [3, "rows", "first", "totalRecords", "pageLinkSize", "alwaysShow", "rowsPerPageOptions", "templateLeft", "templateRight", "dropdownAppendTo", "dropdownScrollHeight", "currentPageReportTemplate", "showFirstLastIcon", "dropdownItemTemplate", "showCurrentPageReport", "showJumpToPageDropdown", "showJumpToPageInput", "showPageLinks", "styleClass", "locale", "onPageChange", 4, "ngIf"], [1, "p-datatable-wrapper", 3, "ngStyle"], [3, "items", "columns", "style", "scrollHeight", "itemSize", "step", "delay", "inline", "autoSize", "lazy", "loaderDisabled", "showSpacer", "showLoader", "options", "onLazyLoad", 4, "ngIf"], [4, "ngIf"], ["class", "p-datatable-footer", 4, "ngIf"], ["class", "p-column-resizer-helper", 3, "ngStyle", 4, "ngIf"], ["class", "p-datatable-reorder-indicator-up", 3, "ngStyle", 4, "ngIf"], ["class", "p-datatable-reorder-indicator-down", 3, "ngStyle", 4, "ngIf"], [1, "p-datatable-loading-overlay", "p-component-overlay"], [3, "class", 4, "ngIf"], [3, "spin", "styleClass", 4, "ngIf"], ["class", "p-datatable-loading-icon", 4, "ngIf"], [3, "spin", "styleClass"], [1, "p-datatable-loading-icon"], [4, "ngTemplateOutlet"], [1, "p-datatable-header"], [3, "onPageChange", "rows", "first", "totalRecords", "pageLinkSize", "alwaysShow", "rowsPerPageOptions", "templateLeft", "templateRight", "dropdownAppendTo", "dropdownScrollHeight", "currentPageReportTemplate", "showFirstLastIcon", "dropdownItemTemplate", "showCurrentPageReport", "showJumpToPageDropdown", "showJumpToPageInput", "showPageLinks", "styleClass", "locale"], ["pTemplate", "dropdownicon"], ["pTemplate", "firstpagelinkicon"], ["pTemplate", "previouspagelinkicon"], ["pTemplate", "lastpagelinkicon"], ["pTemplate", "nextpagelinkicon"], [3, "onLazyLoad", "items", "columns", "scrollHeight", "itemSize", "step", "delay", "inline", "autoSize", "lazy", "loaderDisabled", "showSpacer", "showLoader", "options"], ["pTemplate", "content"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["role", "table", 3, "ngClass", "ngStyle"], ["role", "rowgroup", 1, "p-datatable-thead"], ["role", "rowgroup", "class", "p-datatable-tbody p-datatable-frozen-tbody", 3, "value", "frozenRows", "pTableBody", "pTableBodyTemplate", "frozen", 4, "ngIf"], ["role", "rowgroup", 1, "p-datatable-tbody", 3, "ngClass", "ngStyle", "value", "pTableBody", "pTableBodyTemplate", "scrollerOptions"], ["role", "rowgroup", "class", "p-datatable-scroller-spacer", 3, "ngStyle", 4, "ngIf"], ["role", "rowgroup", "class", "p-datatable-tfoot", 4, "ngIf"], ["role", "rowgroup", 1, "p-datatable-tbody", "p-datatable-frozen-tbody", 3, "value", "frozenRows", "pTableBody", "pTableBodyTemplate", "frozen"], ["role", "rowgroup", 1, "p-datatable-scroller-spacer", 3, "ngStyle"], ["role", "rowgroup", 1, "p-datatable-tfoot"], [1, "p-datatable-footer"], [1, "p-column-resizer-helper", 3, "ngStyle"], [1, "p-datatable-reorder-indicator-up", 3, "ngStyle"], [1, "p-datatable-reorder-indicator-down", 3, "ngStyle"]],
     template: function Table_Template(rf, ctx) {
       if (rf & 1) {
         ɵɵelementStart(0, "div", 10, 0);
@@ -7635,13 +7652,13 @@ var Table = class _Table {
                     [step]="rows"
                     [delay]="lazy ? virtualScrollDelay : 0"
                     [inline]="true"
+                    [autoSize]="true"
                     [lazy]="lazy"
                     (onLazyLoad)="onLazyItemLoad($event)"
                     [loaderDisabled]="true"
                     [showSpacer]="false"
                     [showLoader]="loadingBodyTemplate"
                     [options]="virtualScrollOptions"
-                    [autoSize]="true"
                 >
                     <ng-template pTemplate="content" let-items let-scrollerOptions="options">
                         <ng-container *ngTemplateOutlet="buildInTable; context: { $implicit: items, options: scrollerOptions }"></ng-container>
@@ -7813,6 +7830,8 @@ var Table = class _Table {
     type: OverlayService
   }, {
     type: PrimeNGConfig
+  }, {
+    type: DomSanitizer
   }], {
     frozenColumns: [{
       type: Input
@@ -8429,7 +8448,7 @@ var TableBody = class _TableBody {
       template: `
         <ng-container *ngIf="!dt.expandedRowTemplate">
             <ng-template ngFor let-rowData let-rowIndex="index" [ngForOf]="value" [ngForTrackBy]="dt.rowTrackBy">
-                <ng-container *ngIf="dt.groupHeaderTemplate && !dt.virtualScroll && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupHeader(value, rowData, rowIndex)" role="row">
+                <ng-container *ngIf="dt.groupHeaderTemplate && !dt.virtualScroll && dt.rowGroupMode === 'subheader' && shouldRenderRowGroupHeader(value, rowData, getRowIndex(rowIndex))" role="row">
                     <ng-container
                         *ngTemplateOutlet="dt.groupHeaderTemplate; context: { $implicit: rowData, rowIndex: getRowIndex(rowIndex), columns: columns, editing: dt.editMode === 'row' && dt.isRowEditing(rowData), frozen: frozen }"
                     ></ng-container>
@@ -9775,7 +9794,9 @@ var EditableColumn = class _EditableColumn {
     this.zone = zone;
   }
   ngOnChanges(changes) {
-    if (this.el.nativeElement && !changes.data?.firstChange) {
+    if (changes.pEditableColumnDisabled?.currentValue === true && DomHandler.hasClass(this.el.nativeElement, "p-cell-editing")) {
+      this.closeEditingCell(false, new Event("cancel"));
+    } else if (changes.data?.firstChange === false && this.el.nativeElement) {
       this.dt.updateEditingCell(this.el.nativeElement, this.data, this.field, this.rowIndex);
     }
   }
@@ -10619,14 +10640,21 @@ var TableCheckbox = class _TableCheckbox {
   checked;
   focused;
   subscription;
+  tableHeaderCheckboxSubscription;
+  isTableHeaderCheckboxSelection = false;
   constructor(dt, tableService, cd) {
     this.dt = dt;
     this.tableService = tableService;
     this.cd = cd;
     this.subscription = this.dt.tableService.selectionSource$.subscribe(() => {
-      this.checked = this.dt.isSelected(this.value) && !this.disabled;
+      setTimeout(() => {
+        this.checked = this.isTableHeaderCheckboxSelection ? this.dt.isSelected(this.value) && !this.disabled : this.dt.isSelected(this.value);
+        this.cd.markForCheck();
+      });
       this.ariaLabel = this.ariaLabel || this.dt.config.translation.aria ? this.checked ? this.dt.config.translation.aria.selectRow : this.dt.config.translation.aria.unselectRow : void 0;
-      this.cd.markForCheck();
+    });
+    this.tableHeaderCheckboxSubscription = this.dt.tableService.isHeaderCheckboxSelection$.subscribe((val) => {
+      this.isTableHeaderCheckboxSelection = val;
     });
   }
   ngOnInit() {
@@ -10638,6 +10666,7 @@ var TableCheckbox = class _TableCheckbox {
         originalEvent: event,
         rowIndex: this.index
       }, this.value);
+      this.tableService.onHeaderCheckboxSelection(false);
     }
     DomHandler.clearSelection();
   }
@@ -10650,6 +10679,9 @@ var TableCheckbox = class _TableCheckbox {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.tableHeaderCheckboxSubscription) {
+      this.tableHeaderCheckboxSubscription.unsubscribe();
     }
   }
   static ɵfac = function TableCheckbox_Factory(ɵt) {
@@ -10799,6 +10831,7 @@ var TableHeaderCheckbox = class _TableHeaderCheckbox {
   focused;
   selectionChangeSubscription;
   valueChangeSubscription;
+  tableHeaderCheckboxSubscription;
   constructor(dt, tableService, cd) {
     this.dt = dt;
     this.tableService = tableService;
@@ -10817,6 +10850,7 @@ var TableHeaderCheckbox = class _TableHeaderCheckbox {
   onClick(event) {
     if (!this.disabled) {
       if (this.dt.value && this.dt.value.length > 0) {
+        this.tableService.onHeaderCheckboxSelection(true);
         this.dt.toggleRowsWithCheckbox(event, !this.checked);
       }
     }
