@@ -12,8 +12,10 @@ export const routes: Routes = [
     { path: 'company-queue', component: CompanyQueueComponent },
     { path: 'company-queue-list', component: CompanyQueueListComponent },
     { path: 'company-queue-form', component: CompanyQueueFormComponent },
+    
     { path: 'client-queue-form', component: ClientQueueFormComponent },
     { path: 'client-queue', component: ClientQueueComponent },
+    
     { path: 'login', component: LoginComponent },
     { path: '', component: HomeComponent },
   ];
