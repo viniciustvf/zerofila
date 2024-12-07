@@ -51,8 +51,9 @@ export class CompanyQueueFormComponent {
       const fila: Fila = {
         name: this.queueName.trim(),
         max: this.max,
-        url: 'example.com.br', // URL fictícia, ajuste conforme necessário
-        empresaId: 1, // Exemplo de ID da empresa
+        url: 'example.com.br', 
+        status: true,
+        empresaId: 1,
       };
 
       this.queueService.criaFila(fila).subscribe({

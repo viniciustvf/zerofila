@@ -4,6 +4,8 @@ export interface Fila {
     max: number;
   
     url: string;
+
+    status: boolean;
   
     empresaId: number;
   }
