@@ -8,6 +8,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { IamModule } from './iam/iam.module';
 import { validateSchemaEnv } from './helpers/validation-schema-env';
 import { FilaModule } from './fila/fila.module';
+import { ClientModule } from './client/client.module';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { FilaModule } from './fila/fila.module';
     }),
     IamModule,
     EmpresaModule,
-    FilaModule
+    FilaModule,
+    ClientModule
   ],
   controllers: [AppController],
   providers: [AppService],

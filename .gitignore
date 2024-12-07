@@ -4,6 +4,9 @@ dist/
 .env
 .env.*.local
 .tsbuildinfo
+.build.tsbuildinfo
+.js.map
+.js
 
 # Logs
 logs
@@ -22,6 +25,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.js.*
 *.js
 
 # Dependency directories
@@ -34,6 +38,7 @@ coverage/
 .nyc_output/
 .cache/
 out/
+.tsbuildinfo
 
 # Misc
 tmp/

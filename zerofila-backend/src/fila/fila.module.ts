@@ -8,6 +8,7 @@ import { Fila } from './models/fila.model';
 import { FilaService } from './fila.service';
 import { provideFilaRepository } from './repositories/fila.repository.provider';
 import { EmpresaModule } from '@/empresa/empresa.module';
+import { FilaGateway } from './fila.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Fila]), MailerModule, EmpresaModule],
@@ -19,6 +20,8 @@ import { EmpresaModule } from '@/empresa/empresa.module';
     },
     FilaService,
     ...provideFilaRepository(),
+    FilaGateway,
   ],
+  exports: [...provideFilaRepository()],
 })
 export class FilaModule {}

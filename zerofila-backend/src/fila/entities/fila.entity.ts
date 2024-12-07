@@ -6,6 +6,7 @@ export class Fila {
       public name: string,
       public max: Number,
       public url: string,
+      public status: boolean,
       public empresa: Empresa,
     ) {}
   }

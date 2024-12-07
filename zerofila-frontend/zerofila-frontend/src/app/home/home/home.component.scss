@@ -1,109 +1,74 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  height: 100vh;
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
+  height: 100%;
+  width: 100%;
 }
 
-.container {
-  max-width: 400px;
-  width: 100%;
+.header {
   text-align: center;
-}
-
-header {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.menu-icon {
-  font-size: 40px;
-  cursor: pointer;
-}
-
-.logo img {
-  width: 20px;
-}
-
-main {
-  margin-top: 20%;
-  padding: 80px 20px 20px;
-  width: 100%;
-}
-
-.current-service, .queue {
   margin-bottom: 20px;
 }
 
-.current-service h3, .queue h3 {
-  font-size: 18px;
-  color: #999;
+.title {
+  font-size: 14px;
+  color: #aaa;
 }
 
 .current-number {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
   color: #333;
+}
+
+.fila {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.fila span {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.queue-numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 10px;
 }
 
-.queue-list {
-  background-color: #eee;
-  border-radius: 8px;
-  padding: 15px;
-}
-
-.queue-list p {
+.queue-item {
   font-size: 18px;
-  color: #555;
+  padding: 10px;
   margin: 5px 0;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  width: 150px;
+  text-align: center;
 }
 
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
+.filas-btn {
+  width: 200px;
+  height: 200px;
+  font-size: 24px;
   font-weight: bold;
+  background-color: #000;
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
-.history-btn {
-  background-color: transparent;
-  color: black;
-  text-decoration: underline;
-}
-
-.call-btn, .add-btn {
-  background-color: black;
-  color: white;
+.filas-btn:hover {
+  background-color: #333;
 }
 
 footer {
-  margin-top: 30px;
+  margin-top: 600px;
   font-size: 14px;
 }
 

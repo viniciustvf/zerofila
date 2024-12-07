@@ -1,0 +1,20 @@
+<div class="fila-container">
+  <div class="add-fila-button">
+    <button (click)="adicionarFila()" class="btn-adicionar">
+      <span class="plus-sign">
+        <img src="mais.png"/>
+      </span>
+      <span class="add-fila-text">Adicionar Fila</span>
+    </button>
+  </div>
+  <div class="fila-card" *ngFor="let fila of filas" (click)="verDetalhes(fila)">
+      <div class="fila-header">
+        <span class="fila-title">{{fila.name}}</span>
+        <span class="fila-status">{{fila.max}}</span>
+      </div>
+      <div class="fila-body">
+        <p>{{fila.name}}</p>
+      </div>
+    </div>
+</div>
+  

@@ -11,7 +11,7 @@ import {
   NgIf,
   NgStyle,
   NgTemplateOutlet
-} from "./chunk-V5CZHFN4.js";
+} from "./chunk-B5HUQXFL.js";
 import {
   ChangeDetectionStrategy,
   Component,

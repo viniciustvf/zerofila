@@ -19,6 +19,7 @@ export function configureSwaggerDocs(
       .addTag('auth')
       .addTag('empresa')
       .addTag('fila')
+      .addTag('client')
       .addBearerAuth({
         description: 'Please enter token:',
         name: 'Authorization',
