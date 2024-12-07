@@ -1,7 +1,6 @@
 import { Repository, UpdateResult } from 'typeorm';
 import { HashingService } from '../../../shared/hashing/hashing.service';
 import { FilaRepository } from '../fila.repository.interface';
-import { FilaDto } from '@/fila/dto/fila.dto';
 import { FilaUpdateDto } from '@/fila/dto/fila-update.dto';
 import { Fila } from '@/fila/models/fila.model';
 
@@ -21,19 +20,20 @@ export class FilaTypeOrmRepository implements FilaRepository {
     });
   }
 
-  public async create(filaDto: FilaDto): Promise<Fila> {
-    return await this.filaRepository.save(filaDto);
+  public async create(fila: Fila): Promise<Fila> {
+    return await this.filaRepository.save(fila);
   }
 
   public async updateFila(
     id: string,
-    filaUpdateDto: FilaUpdateDto,
+    fila: Fila,
   ): Promise<UpdateResult> {
+    console.log(fila)
     return await this.filaRepository.update(
       {
         id: +id,
       },
-      { ...filaUpdateDto },
+      { ...fila },
     );
   }
 

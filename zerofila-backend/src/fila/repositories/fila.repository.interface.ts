@@ -1,11 +1,11 @@
 import { FilaUpdateDto } from "../dto/fila-update.dto";
-import { FilaDto } from "../dto/fila.dto";
+import { Fila } from "../models/fila.model";
 
 
 export interface FilaRepository {
   findAll(): void;
   findById(filaId: string): void;
-  create(filaDto: FilaDto): void;
+  create(fila: Fila): void;
   updateFila(filaId: string, filaUpdateDto: FilaUpdateDto): void;
   deleteFila(id: string): void;
 }

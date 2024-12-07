@@ -31,6 +31,7 @@ exports.EmpresaModule = EmpresaModule = __decorate([
             empresa_service_1.EmpresaService,
             ...(0, empresa_repository_provider_1.provideEmpresaRepository)(),
         ],
+        exports: [...(0, empresa_repository_provider_1.provideEmpresaRepository)()],
     })
 ], EmpresaModule);
 //# sourceMappingURL=empresa.module.js.map

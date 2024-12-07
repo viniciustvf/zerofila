@@ -7,9 +7,10 @@ import { FilaController } from './fila.controller';
 import { Fila } from './models/fila.model';
 import { FilaService } from './fila.service';
 import { provideFilaRepository } from './repositories/fila.repository.provider';
+import { EmpresaModule } from '@/empresa/empresa.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Fila]), MailerModule],
+  imports: [TypeOrmModule.forFeature([Fila]), MailerModule, EmpresaModule],
   controllers: [FilaController],
   providers: [
     {

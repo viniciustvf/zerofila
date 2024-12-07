@@ -19,5 +19,6 @@ import { provideEmpresaRepository } from './repositories/empresa.repository.prov
     EmpresaService,
     ...provideEmpresaRepository(),
   ],
+  exports: [...provideEmpresaRepository()],
 })
 export class EmpresaModule {}

@@ -1,17 +1,38 @@
-import { MaxLength, IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { Empresa } from '@/empresa/models/empresa.model';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
 export class FilaDto {
+  @ApiProperty({
+    description: 'Nome da fila',
+    example: 'Fila de Atendimento',
+  })
+  @IsNotEmpty()
   @IsString()
-  @MaxLength(30)
   name: string;
 
-  @IsInt()
+  @ApiProperty({
+    description: 'Número máximo de pessoas na fila',
+    example: 100,
+  })
+  @IsNotEmpty()
+  @IsNumber()
   max: number;
 
-  @IsString()
+  @ApiProperty({
+    description: 'URL da fila para acesso',
+    example: 'http://example.com/fila',
+  })
   @IsNotEmpty()
+  @IsString()
+  @MaxLength(60)
   url: string;
 
-  @IsInt()
-  idEmpresa: number; 
+  @ApiProperty({
+    description: 'ID da empresa associada à fila',
+    example: 1,
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  empresaId: number;
 }
