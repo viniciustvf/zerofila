@@ -1,6 +1,6 @@
 import { Empresa } from '@/empresa/models/empresa.model';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
 export class FilaDto {
   @ApiProperty({
@@ -27,6 +27,13 @@ export class FilaDto {
   @IsString()
   @MaxLength(60)
   url: string;
+
+  @ApiProperty({
+    description: 'Status da fila Ativo = True ou Inativo = False',
+  })
+  @IsNotEmpty()
+  @IsBoolean()
+  status: boolean;
 
   @ApiProperty({
     description: 'ID da empresa associada à fila',

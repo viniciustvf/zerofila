@@ -1,15 +1,19 @@
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login/login.component';
+import { LoginComponent } from './company/login/login/login.component';
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home/home/home.component';
-import { ClientQueueComponent } from './queue/client-queue/client-queue.component';
-import { CompanyFormComponent } from './company/company-form/company-form.component';
-import { QueueFormComponent } from './queue/queue-form/queue-form.component';
+import { ClientQueueComponent } from './client/client-queue/client-queue.component';
+import { CompanyQueueFormComponent } from './company/company-queue-form/company-queue-form.component';
+import { CompanyQueueComponent } from './company/company-queue/company-queue.component';
+import { CompanyQueueListComponent } from './company/company-queue-list/company-queue-list.component';
+import { ClientQueueFormComponent } from './client/client-queue-form/client-queue-form.component';
 
 export const routes: Routes = [
+    { path: 'company-queue', component: CompanyQueueComponent },
+    { path: 'company-queue-list', component: CompanyQueueListComponent },
+    { path: 'company-queue-form', component: CompanyQueueFormComponent },
+    { path: 'client-queue-form', component: ClientQueueFormComponent },
     { path: 'client-queue', component: ClientQueueComponent },
-    { path: 'company-form', component: CompanyFormComponent },
-    { path: 'queue-form', component: QueueFormComponent },
     { path: 'login', component: LoginComponent },
     { path: '', component: HomeComponent },
   ];

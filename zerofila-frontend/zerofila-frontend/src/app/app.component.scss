@@ -1,0 +1,76 @@
+/* Barra superior com sombra */
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff; /* Cor de fundo da barra superior */
+    color: white;
+    padding: 10px 20px; /* Reduzindo o padding para tornar a barra mais fina */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Garante que a barra fique no topo */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  /* Seção com os ícones (Voltar e Menu) à esquerda */
+  .menu-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  /* Ícone de voltar */
+  .back-icon {
+    margin-left: 25px;
+    font-size: 25px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%; /* Tornando o fundo redondo */
+    color: #000000; /* Cor do ícone branco */
+    transition: background-color 0.3s, transform 0.3s; /* Transição suave */
+  }
+
+  .back-icon img {
+    width: 8.509%;
+  }
+  
+  .back-icon:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Ícone de menu */
+  .menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    padding: 8px;
+    color: #000000;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+  
+  .menu-icon:hover {
+    transform: scale(1.2); /* Aumenta o tamanho do ícone para 1.2 vezes */
+  }
+  
+  /* Logo (alinhada à direita) */
+  .logo {
+    margin-left: auto; /* Isso vai empurrar o logo para a direita */
+  }
+  
+  .logo img {
+    height: 30px; /* Ajuste o tamanho da imagem do logo */
+    max-height: 30px;
+  }
+  
+  /* Espaçamento superior para compensar a barra fixa */
+  router-outlet {
+    margin-top: 60px; /* Garantir que o conteúdo não fique escondido atrás da barra */
+  }
+  
+  /* Ajuste para o Toast */
+  p-toast {
+    z-index: 1050; /* Ajuste para que o Toast não fique atrás da barra */
+  }
+  

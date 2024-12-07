@@ -34,6 +34,12 @@ export class Fila {
   url: string;
 
   @ApiProperty({
+    description: 'Status da fila Ativo = True ou Inativo = False',
+  })
+  @Column()
+  status: boolean;
+
+  @ApiProperty({
     description: 'Empresa associada à fila',
     type: () => Empresa, // Indica o tipo relacionado
   })

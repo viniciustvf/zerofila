@@ -12,6 +12,7 @@ import {
 import { EMPRESA_REPOSITORY_TOKEN } from '@/empresa/repositories/empresa.repository.interface';
 import { EmpresaTypeOrmRepository } from '@/empresa/repositories/implementations/empresa.typeorm.repository';
 import { FilaDto } from './dto/fila.dto';
+import { FilaGateway } from './fila.gateway';
   
   @Injectable()
   export class FilaService {
@@ -21,6 +22,8 @@ import { FilaDto } from './dto/fila.dto';
 
       @Inject(EMPRESA_REPOSITORY_TOKEN)
       private readonly empresaRepository: EmpresaTypeOrmRepository,
+
+      private readonly filaGateway: FilaGateway
     ) {}
   
     public async findAll(): Promise<Fila[]> {
@@ -48,6 +51,7 @@ import { FilaDto } from './dto/fila.dto';
       fila.name = filaDto.name;
       fila.max = filaDto.max;
       fila.url = filaDto.url;
+      fila.status = filaDto.status;
       fila.empresa = empresa;
   
       return this.filaRepository.create(fila);
@@ -75,6 +79,14 @@ import { FilaDto } from './dto/fila.dto';
     public async deleteFila(id: string): Promise<void> {
       const fila = await this.findById(id);
       return await this.filaRepository.deleteFila(fila);
+    }
+
+    addClientToQueue(filaId: string, clientData: any): void {
+      this.filaGateway.sendQueueUpdate(filaId, [clientData]);
+    }
+  
+    callNextClient(filaId: string): void {
+      this.filaGateway.sendQueueUpdate(filaId, []);
     }
   }
   
