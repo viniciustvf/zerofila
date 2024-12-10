@@ -13,6 +13,7 @@ import { EMPRESA_REPOSITORY_TOKEN } from '@/empresa/repositories/empresa.reposit
 import { EmpresaTypeOrmRepository } from '@/empresa/repositories/implementations/empresa.typeorm.repository';
 import { FilaDto } from './dto/fila.dto';
 import { FilaGateway } from './fila.gateway';
+import * as crypto from 'crypto';
   
   @Injectable()
   export class FilaService {
@@ -53,8 +54,18 @@ import { FilaGateway } from './fila.gateway';
       fila.url = filaDto.url;
       fila.status = filaDto.status;
       fila.empresa = empresa;
-  
-      return this.filaRepository.create(fila);
+
+      const hash = crypto.randomBytes(16).toString('hex');
+      fila.url = `/client-queue-form?id=${fila.id}&hash=${hash}`;
+
+      const createdFila = await this.filaRepository.create(fila);
+
+      const updatedHash = crypto.randomBytes(16).toString('hex');
+      createdFila.url = `/client-queue-form?id=${createdFila.id}&hash=${updatedHash}`;
+
+      await this.filaRepository.updateFila(createdFila.id.toString(), createdFila); 
+
+      return this.filaRepository.findById(createdFila.id.toString());
     }
   
     public async updateFila(
@@ -81,12 +92,12 @@ import { FilaGateway } from './fila.gateway';
       return await this.filaRepository.deleteFila(fila);
     }
 
-    addClientToQueue(filaId: string, clientData: any): void {
-      this.filaGateway.sendQueueUpdate(filaId, [clientData]);
-    }
+    // addClientToQueue(filaId: string, clientData: any): void {
+    //   this.filaGateway.sendQueueUpdate(filaId, [clientData]);
+    // }
   
-    callNextClient(filaId: string): void {
-      this.filaGateway.sendQueueUpdate(filaId, []);
-    }
+    // callNextClient(filaId: string): void {
+    //   this.filaGateway.sendQueueUpdate(filaId, []);
+    // }
   }
   

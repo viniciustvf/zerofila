@@ -33,4 +33,7 @@ export class Client {
   })
   @ManyToOne(() => Fila, { onDelete: 'CASCADE' })
   fila: Fila;
+
+  @Column()
+  position: number;
 }

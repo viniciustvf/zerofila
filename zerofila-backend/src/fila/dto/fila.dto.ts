@@ -25,7 +25,6 @@ export class FilaDto {
   })
   @IsNotEmpty()
   @IsString()
-  @MaxLength(60)
   url: string;
 
   @ApiProperty({
@@ -42,4 +41,10 @@ export class FilaDto {
   @IsNotEmpty()
   @IsNumber()
   empresaId: number;
+
+  @ApiProperty({
+    description: 'IDs dos clientes associados à fila',
+    example: 1,
+  })
+  clientIds: number[];
 }

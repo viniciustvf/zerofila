@@ -24,4 +24,7 @@ export class ClientDto {
   @IsNotEmpty()
   @IsNumber()
   filaId: number;
+
+  @IsNumber()
+  position: number;
 }

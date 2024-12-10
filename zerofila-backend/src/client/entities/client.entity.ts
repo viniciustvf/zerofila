@@ -6,5 +6,6 @@ export class Client {
       public name: string,
       public telefone: string,
       public fila: Fila,
+      public position: number,
     ) {}
   }

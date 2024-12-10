@@ -1,8 +1,8 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   Title
-} from "./chunk-FIJO6WBR.js";
-import "./chunk-7GKL77XV.js";
+} from "./chunk-ISQ6R4FL.js";
+import "./chunk-W66IANAI.js";
 import {
   DOCUMENT,
   HashLocationStrategy,
@@ -11,7 +11,7 @@ import {
   LocationStrategy,
   PathLocationStrategy,
   ViewportScroller
-} from "./chunk-RW3PLVTY.js";
+} from "./chunk-C5GQDU7H.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   APP_INITIALIZER,
@@ -56,7 +56,6 @@ import {
   isStandalone,
   makeEnvironmentProviders,
   reflectComponentType,
-  require_cjs,
   require_operators,
   runInInjectionContext,
   setClassMetadata,
@@ -80,12 +79,15 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-3PQRU26X.js";
+} from "./chunk-63ZTQPCD.js";
+import {
+  require_cjs
+} from "./chunk-K63PUFGL.js";
 import {
   __spreadProps,
   __spreadValues,
   __toESM
-} from "./chunk-NQ4HTGF6.js";
+} from "./chunk-LDODSSGN.js";
 
 // node_modules/@angular/router/fesm2022/router.mjs
 var import_rxjs = __toESM(require_cjs(), 1);

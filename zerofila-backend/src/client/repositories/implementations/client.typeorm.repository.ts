@@ -19,6 +19,13 @@ export class ClientTypeOrmRepository implements ClientRepository {
     });
   }
 
+  public async findByFilaId(filaId: number): Promise<Client[]> {
+    return await this.clientRepository.find({
+      where: { fila: { id: filaId } },
+      relations: ['fila'],
+    });
+  }
+
   public async create(client: Client): Promise<Client> {
     return await this.clientRepository.save(client);
   }

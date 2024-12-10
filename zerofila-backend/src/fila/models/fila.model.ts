@@ -1,6 +1,7 @@
 import { Empresa } from '@/empresa/models/empresa.model';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Client } from '@/client/models/client.model';
 
 @Entity()
 export class Fila {
@@ -30,7 +31,7 @@ export class Fila {
     example: 'http://example.com/fila',
     maxLength: 60,
   })
-  @Column({ length: 60 })
+  @Column()
   url: string;
 
   @ApiProperty({
@@ -45,4 +46,11 @@ export class Fila {
   })
   @ManyToOne(() => Empresa, { onDelete: 'CASCADE' })
   empresa: Empresa;
+
+  @ApiProperty({
+    description: 'Clientes associados à fila',
+    type: () => Client,
+  })
+  @OneToMany(() => Client, (client) => client.fila)
+  clients: Client[];
 }

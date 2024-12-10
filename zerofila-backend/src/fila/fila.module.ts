@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '../shared/mailer/mailer.module';
 import { BcryptService } from '../shared/hashing/bcrypt.service';
@@ -9,9 +9,11 @@ import { FilaService } from './fila.service';
 import { provideFilaRepository } from './repositories/fila.repository.provider';
 import { EmpresaModule } from '@/empresa/empresa.module';
 import { FilaGateway } from './fila.gateway';
+import { Client } from '@/client/models/client.model';
+import { ClientModule } from '@/client/client.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Fila]), MailerModule, EmpresaModule],
+  imports: [TypeOrmModule.forFeature([Fila, Client]), MailerModule, EmpresaModule, forwardRef(() => ClientModule)],
   controllers: [FilaController],
   providers: [
     {

@@ -1,3 +1,4 @@
+import { Client } from "@/client/models/client.model";
 import { Empresa } from "@/empresa/models/empresa.model";
 
 export class Fila {
@@ -8,5 +9,6 @@ export class Fila {
       public url: string,
       public status: boolean,
       public empresa: Empresa,
+      public clients: Client[],
     ) {}
   }

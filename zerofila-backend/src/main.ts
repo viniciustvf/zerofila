@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { configureSwaggerDocs } from './helpers/configure-swagger-docs.helper';
 import { configureAuthSwaggerDocs } from './helpers/configure-auth-swagger-docs.helper';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 
 async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter();
@@ -12,11 +13,12 @@ async function bootstrap() {
   const configService = app.get<ConfigService>(ConfigService);
 
   await fastifyAdapter.register(require('@fastify/cors'), {
-    origin: true,
+    origin: 'http://localhost:4200', // Ajuste para o cliente Angular
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    allowedHeaders: '*',
     credentials: true,
   });
+
+  app.useWebSocketAdapter(new IoAdapter(app));
 
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
