@@ -1,42 +1,50 @@
-<p-card class="form-card">
-    <div class="logo-container">
-        <img src="assets/logo-sushi.png" alt="Logo Sushi" class="logo">
+<p-card class="form-card" *ngIf="showForm">
+  <p class="description-text">
+    Para entrar na fila de espera, insira seu nome e número de celular abaixo.
+  </p>
+
+  <div class="form-container">
+    <div class="input-group">
+      <input
+        [(ngModel)]="clientData.name"
+        type="text"
+        id="txtName"
+        name="name"
+        placeholder="Nome"
+        class="input-field"
+        required
+      />
     </div>
-    <p class="description-text">Para entrar na fila de espera, insira seu nome e número de celular abaixo.</p>
-    
-    <form #form="ngForm" class="form-container">
-        <div class="input-group">
-            <input 
-                ngModel 
-                pInputText 
-                type="text" 
-                id="txtName" 
-                name="txtName" 
-                placeholder="Nome"
-                required
-                class="input-field"
-            >
-        </div>
-        <div class="input-group">
-            <input 
-                ngModel 
-                pInputText 
-                type="tel" 
-                id="txtPhone" 
-                name="txtPhone" 
-                placeholder="Celular"
-                pattern="\\d{10,11}" 
-                required
-                class="input-field"
-            >
-        </div>
-        <div class="button-container">
-            <button pButton type="button" label="Próximo" class="submit-button"></button>
-        </div>
-    </form>
-    
-    <div class="footer-text">
-        <p>zero <strong>fila</strong></p>
-        <p class="powered-by">Powered by H&V</p>
+    <div class="input-group">
+      <input
+        [(ngModel)]="clientData.telefone"
+        type="tel"
+        id="txtPhone"
+        name="telefone"
+        placeholder="Celular"
+        class="input-field"
+        required
+      />
     </div>
+    <div class="button-container">
+      <button (click)="proximo()" class="submit-button">Salvar</button>
+    </div>
+  </div>
 </p-card>
+
+<!-- Grid com as filas -->
+<div *ngIf="!showForm" class="grid-container">
+  <h2>Clientes na fila</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do cliente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <td>{{ client.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

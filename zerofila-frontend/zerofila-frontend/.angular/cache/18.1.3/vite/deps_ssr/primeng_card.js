@@ -1,18 +1,18 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
-  Footer,
-  Header,
-  ObjectUtils,
-  PrimeTemplate,
-  SharedModule
-} from "./chunk-SLI2DTJM.js";
-import {
   CommonModule,
   NgClass,
   NgIf,
   NgStyle,
   NgTemplateOutlet
-} from "./chunk-RW3PLVTY.js";
+} from "./chunk-C5GQDU7H.js";
+import {
+  Footer,
+  Header,
+  ObjectUtils,
+  PrimeTemplate,
+  SharedModule
+} from "./chunk-VNVTAHXT.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -44,8 +44,9 @@ import {
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate1
-} from "./chunk-3PQRU26X.js";
-import "./chunk-NQ4HTGF6.js";
+} from "./chunk-63ZTQPCD.js";
+import "./chunk-K63PUFGL.js";
+import "./chunk-LDODSSGN.js";
 
 // node_modules/primeng/fesm2022/primeng-card.mjs
 var _c0 = ["*", [["p-header"]], [["p-footer"]]];

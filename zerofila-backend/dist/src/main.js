@@ -7,16 +7,17 @@ const config_1 = require("@nestjs/config");
 const configure_swagger_docs_helper_1 = require("./helpers/configure-swagger-docs.helper");
 const configure_auth_swagger_docs_helper_1 = require("./helpers/configure-auth-swagger-docs.helper");
 const platform_fastify_1 = require("@nestjs/platform-fastify");
+const platform_socket_io_1 = require("@nestjs/platform-socket.io");
 async function bootstrap() {
     const fastifyAdapter = new platform_fastify_1.FastifyAdapter();
     const app = await core_1.NestFactory.create(app_module_1.AppModule, fastifyAdapter);
     const configService = app.get(config_1.ConfigService);
     await fastifyAdapter.register(require('@fastify/cors'), {
-        origin: true,
+        origin: 'http://localhost:4200',
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-        allowedHeaders: '*',
         credentials: true,
     });
+    app.useWebSocketAdapter(new platform_socket_io_1.IoAdapter(app));
     app.setGlobalPrefix('api');
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

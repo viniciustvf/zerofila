@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '../shared/mailer/mailer.module';
 import { BcryptService } from '../shared/hashing/bcrypt.service';
@@ -11,7 +11,7 @@ import { FilaModule } from '@/fila/fila.module';
 import { EmpresaModule } from '@/empresa/empresa.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Client]), MailerModule, FilaModule, EmpresaModule],
+  imports: [TypeOrmModule.forFeature([Client]), MailerModule, forwardRef(() => FilaModule), EmpresaModule],
   controllers: [ClientController],
   providers: [
     {
@@ -21,5 +21,6 @@ import { EmpresaModule } from '@/empresa/empresa.module';
     ClientService,
     ...provideClientRepository(),
   ],
+  exports: [...provideClientRepository()],
 })
 export class ClientModule {}
