@@ -6,6 +6,12 @@ import {
   TimesIcon
 } from "./chunk-V4TDW5WK.js";
 import {
+  BaseIcon,
+  DomHandler,
+  Ripple,
+  RippleModule
+} from "./chunk-FY2736VM.js";
+import {
   animate,
   animateChild,
   query,
@@ -14,12 +20,6 @@ import {
   transition,
   trigger
 } from "./chunk-GZQUU2FY.js";
-import {
-  BaseIcon,
-  DomHandler,
-  Ripple,
-  RippleModule
-} from "./chunk-FY2736VM.js";
 import {
   CommonModule,
   DOCUMENT,

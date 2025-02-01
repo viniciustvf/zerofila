@@ -1,40 +1,36 @@
-/* Barra superior com sombra */
 .menu {
-    height: 100px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start; /* Alinha os itens ao topo */
-    background: linear-gradient(to bottom, #a5a5a5, #000000); /* Gradiente vertical */
+    background: rgb(222, 218, 218); /* Gradiente suave no cabeçalho */
     color: white;
-    padding: 10px 30px; /* Reduzindo o padding para tornar a barra mais fina */
+    padding: 10px 30px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  /* Seção com os ícones (Voltar e Menu) à esquerda */
   .menu-left {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
   
-  /* Ícone de voltar */
   .back-icon {
     font-size: 25px;
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%; /* Tornando o fundo redondo */
-    color: #ffffff; /* Cor do ícone branco */
+    border-radius: 50%;
+    color: #ffffff;
   }
 
   .back-icon img {
     width: 8%;
   }
   
-  /* Ícone de menu */
   .menu-icon {
     font-size: 30px;
     cursor: pointer;
@@ -45,26 +41,24 @@
   }
   
   .menu-icon:hover {
-    transform: scale(1.2); /* Aumenta o tamanho do ícone para 1.2 vezes */
+    transform: scale(1.2);
   }
   
-  /* Logo (alinhada à direita) */
   .logo {
-    margin-left: auto; /* Isso vai empurrar o logo para a direita */
+    margin-left: auto;
   }
   
   .logo img {
-    height: 30px; /* Ajuste o tamanho da imagem do logo */
+    margin-top: 15px;
+    height: 30px;
     max-height: 30px;
   }
-  
-  /* Espaçamento superior para compensar a barra fixa */
+
   router-outlet {
-    margin-top: 60px; /* Garantir que o conteúdo não fique escondido atrás da barra */
+    margin-top: 60px;
   }
   
-  /* Ajuste para o Toast */
   p-toast {
-    z-index: 1050; /* Ajuste para que o Toast não fique atrás da barra */
+    z-index: 1050;
   }
   
