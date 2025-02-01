@@ -44,7 +44,12 @@ export class FilaDto {
 
   @ApiProperty({
     description: 'IDs dos clientes associados à fila',
-    example: 1,
+    example: [1, 2, 3],
   })
   clientIds: number[];
+
+  @ApiProperty({
+    description: 'Cliente atualmente em atendimento',
+  })
+  calledClientId: number | null;
 }

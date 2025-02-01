@@ -37,106 +37,152 @@ export class FilaGateway {
     }
   }
 
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(@ConnectedSocket() client: Socket, @MessageBody() payload: { filaId: string }): void {
+    client.join(payload.filaId);
+    client.emit('joinedRoom', `Você entrou na sala da fila ${payload.filaId}`);
+    console.log(`Cliente ${client.id} entrou na sala da fila ${payload.filaId}`);
+  }
+
+  @SubscribeMessage('leaveQueue')
+  async leaveQueue(
+    @MessageBody() data: { filaId: string; telefone: string },
+    @ConnectedSocket() socket: Socket
+  ): Promise<void> {
+    const { filaId, telefone } = data;
+
+    try {
+      const fila = await this.filaRepository.findByIdWithRelations(filaId);
+      
+      if (!fila || !fila.clients || fila.clients.length === 0) {
+        socket.emit('error', { message: 'Fila não encontrada ou vazia' });
+        return;
+      }
+
+      const clientIndex = fila.clients.findIndex(client => client.telefone === telefone);
+
+      if (clientIndex === -1) {
+        socket.emit('error', { message: 'Cliente não encontrado na fila' });
+        return;
+      }
+
+      const removedClient = fila.clients[clientIndex];
+      removedClient.fila = null; 
+
+      await this.clientRepository.create(removedClient);
+
+      fila.clients.splice(clientIndex, 1);
+      fila.clients.forEach((client, index) => {
+        client.position = index + 1;
+      });
+
+      await Promise.all(fila.clients.map(client => this.clientRepository.create(client)));
+      await this.filaRepository.create(fila);
+
+      this.sendQueueUpdate(fila);
+
+      socket.emit('success', { message: 'Você saiu da fila com sucesso' });
+
+    } catch (error) {
+      console.error('Erro ao remover cliente da fila:', error);
+      socket.emit('error', { message: 'Erro ao processar a solicitação' });
+    }
+  }
+
   @SubscribeMessage('joinQueue')
   async joinQueue(
     @MessageBody() clientData: { filaId: string; name: string; telefone: string },
     @ConnectedSocket() socket: Socket
   ): Promise<void> {
     const { filaId, name, telefone } = clientData;
-    console.log('CHEGOUUUU.', clientData);
-
     try {
-      const fila = await this.filaRepository.findById(filaId);
-      const clients = await this.clientRepository.findByFilaId(Number(filaId));
-      fila.clients = clients;
-      console.log('FILAAA: ', fila);
+      const fila = await this.filaRepository.findByIdWithRelations(filaId);
       if (!fila) {
         socket.emit('error', { message: 'Fila não encontrada' });
         return;
       }
-
       const position = fila.clients.length + 1;
-
+  
       const client = new Client();
       client.name = name;
       client.telefone = telefone;
       client.fila = fila;
       client.position = position;
-
+  
       await this.clientRepository.create(client);
-
+  
+      const updatedFila = await this.filaRepository.findByIdWithRelations(filaId);
+  
       socket.join(filaId);
-
-      this.sendQueueUpdate(fila);
-
+  
+      this.sendQueueUpdate(updatedFila);
     } catch (error) {
       console.error('Erro ao adicionar cliente à fila:', error);
       socket.emit('error', { message: 'Erro ao processar sua solicitação' });
     }
   }
 
-  // // Empresa adiciona cliente manualmente
-  // @SubscribeMessage('addClientToQueue')
-  // handleAddClient(@MessageBody() clientData: { filaId: string; name: string; phone: string }): void {
-  //   const { filaId, name, phone } = clientData;
+  @SubscribeMessage('viewQueue')
+  async viewQueue(
+    @MessageBody() data: { filaId: string },
+    @ConnectedSocket() socket: Socket
+  ): Promise<void> {
+    const { filaId } = data;
+    try {
+      const fila = await this.filaRepository.findByIdWithRelations(filaId);
+      if (!fila) {
+        socket.emit('error', { message: 'Fila não encontrada' });
+        return;
+      }
+      socket.join(filaId);
+      await this.sendQueueUpdate(fila);
+    } catch (error) {
+      console.error('Erro ao visualizar a fila:', error);
+      socket.emit('error', { message: 'Erro ao processar sua solicitação' });
+    }
+  }
 
-  //   // Adicionar cliente manualmente à fila
-  //   const clients = this.filas.get(filaId) || [];
-  //   const newClient: Client = { id: `${filaId}-${clients.length + 1}`, name, phone, position: clients.length + 1 };
-  //   clients.push(newClient);
-  //   this.filas.set(filaId, clients);
+  @SubscribeMessage('callNextClient')
+  async handleCallNextClient(@MessageBody() filaId: string): Promise<void> {
+    try {
+      const fila = await this.filaRepository.findByIdWithRelations(filaId);
+  
+      if (!fila || !fila.clients || fila.clients.length === 0) {
+        return;
+      }
+  
+      const calledClient = fila.clients.shift();
+  
+      if (calledClient) {
+        fila.calledClient = calledClient;
+        calledClient.fila = null;
+        await this.clientRepository.create(calledClient);
+      }
+  
+      await Promise.all(
+        fila.clients.map((client, index) => {
+          client.position = index + 1;
+          return this.clientRepository.create(client); 
+        })
+      );
+  
+      await this.filaRepository.create(fila);
+  
+      this.server.to(filaId).emit('clientCalled', calledClient);
+  
+      this.sendQueueUpdate(fila);
+    } catch (error) {
+      console.error('Erro ao adicionar cliente à fila:', error);
+    }
+  }
 
-  //   // Enviar atualização da fila
-  //   this.sendQueueUpdate(filaId);
-  // }
-
-  // // Empresa chama o próximo cliente
-  // @SubscribeMessage('callNextClient')
-  // handleCallNextClient(@MessageBody() filaId: string): void {
-  //   const clients = this.filas.get(filaId);
-
-  //   if (!clients || clients.length === 0) {
-  //     return; // Nenhum cliente na fila
-  //   }
-
-  //   // Remover o cliente chamado
-  //   const calledClient = clients.shift(); // Remove o primeiro da fila
-
-  //   // Recalcular posições dos clientes restantes
-  //   clients.forEach((client, index) => {
-  //     client.position = index + 1;
-  //   });
-
-  //   this.filas.set(filaId, clients);
-
-  //   // Enviar atualização da fila
-  //   this.server.to(filaId).emit('clientCalled', calledClient); // Notificar quem foi chamado
-  //   this.sendQueueUpdate(filaId); // Atualizar a fila para todos
-  // }
-
-  // // Cliente sai da fila
-  // @SubscribeMessage('leaveQueue')
-  // handleLeaveQueue(@MessageBody() filaId: string, @ConnectedSocket() socket: Socket): void {
-  //   const clients = this.filas.get(filaId);
-
-  //   if (!clients) {
-  //     return;
-  //   }
-
-  //   // Remover cliente da fila
-  //   const updatedClients = clients.filter((client) => client.id !== socket.id);
-
-  //   // Recalcular posições
-  //   updatedClients.forEach((client, index) => {
-  //     client.position = index + 1;
-  //   });
-
-  //   this.filas.set(filaId, updatedClients);
-
-  //   // Cliente sai da sala
-  //   socket.leave(filaId);
-
-  //   // Enviar atualização da fila
-  //   this.sendQueueUpdate(filaId);
-  // }
+  @SubscribeMessage('queueUrlUpdated')
+  async notifyQueueUrlUpdate(filaId: string, updatedUrl: string): Promise<void> {
+    try {      
+      console.log(`Emitindo evento queueUrlUpdated com URL: ${updatedUrl}`);
+      this.server.to(filaId).emit('queueUrlUpdated', { filaId, url: updatedUrl });
+    } catch (error) {
+      console.error(`Erro ao emitir evento:`, error);
+    }
+  }  
 }

@@ -13,7 +13,6 @@ export class ClientDto {
   @ApiProperty({
     description: 'Número de telefone'
   })
-  @IsNotEmpty()
   @IsString()
   telefone: string;
 

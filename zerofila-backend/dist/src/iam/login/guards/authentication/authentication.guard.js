@@ -26,6 +26,13 @@ let AuthenticationGuard = AuthenticationGuard_1 = class AuthenticationGuard {
         };
     }
     async canActivate(context) {
+        const isPublic = this.reflector.getAllAndOverride(auth_guard_decorator_1.IS_PUBLIC_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        if (isPublic) {
+            return true;
+        }
         const authTypes = this.reflector.getAllAndOverride(auth_guard_decorator_1.AUTH_TYPE_KEY, [context.getHandler(), context.getClass()]) ?? [AuthenticationGuard_1.defaultAuthType];
         const guards = authTypes.map((type) => this.authTypeGuardMap[type]).flat();
         let error = new common_1.UnauthorizedException();

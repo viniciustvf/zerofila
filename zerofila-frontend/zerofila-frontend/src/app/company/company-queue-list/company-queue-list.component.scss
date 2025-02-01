@@ -3,20 +3,30 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsivo */
     gap: 20px;
-    padding: 20px;
+    padding: 40px;
   }
   
   /* Estilo para cada card de fila */
   .fila-card {
-    background-color: #fff;
+    background: linear-gradient(45deg, #f0f0f0, #c5c5c5);
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(216, 216, 216, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     padding: 16px;
     transition: transform 0.3s ease;
+  }
+
+  .add-fila-text {
+    width: 1100px;
+  }
+
+  @media (min-width: 768px) {
+    hr {
+      display: none; /* Esconde a linha no desktop */
+    }
   }
   
   .fila-card:hover {
@@ -36,27 +46,20 @@
   }
   
   .fila-status {
-    color: #007bff;
+    color: #1f78d6;
   }
   
   .fila-body {
     font-size: 0.9rem;
-    color: #666;
+    color: #6e6e6e;
   }
-
-/* Container do botão "Adicionar Fila" */
-/* Container do botão "Adicionar Fila" */
-.add-fila-button {
-  margin: 20px 0;
-  width: 100%; /* O botão vai ocupar toda a largura do contêiner */
-}
 
 /* Botão "Adicionar Fila" */
 .btn-adicionar {
   width: 100%; /* Faz o botão ter a mesma largura do contêiner (como os cards) */
-  height: 120px; /* Altura do botão, ajustada conforme os cards de fila */
-  background-color: #007bff; /* Cor verde para o botão */
-  color: white;
+  height: 100px; /* Altura do botão, ajustada conforme os cards de fila */
+  background: linear-gradient(45deg, #000000, #000000);
+  color: rgb(255, 255, 255);
   padding: 10px; /* Espaçamento interno */
   border: none;
   border-radius: 8px; /* Cantos arredondados */
@@ -66,7 +69,9 @@
   display: flex;
   align-items: center;
   justify-content: center; /* Centraliza o texto dentro do botão */
-  position: relative;
+  font-family: 'Quicksand';
+  font-weight: 700;
+  border: 2px solid #1a71c2; 
 }
 
 /* Efeito hover */
@@ -78,28 +83,47 @@
 /* "+", que aparece inicialmente */
 .plus-sign {
   font-size: 48px; /* Tamanho grande do "+" */
-  transition: opacity 0.3s ease; /* Transição suave para a opacidade */
-}
-
-/* Texto "Adicionar Fila", que aparece no hover */
-.add-fila-text {
-  position: absolute;
-  opacity: 0; /* Inicialmente invisível */
-  font-size: 18px; /* Tamanho da fonte para a descrição */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
-  transform: translateY(-10px); /* Desloca levemente o texto para cima */
-}
-
-/* No hover, escondemos o "+" e mostramos o "Adicionar Fila" */
-.btn-adicionar:hover .plus-sign {
-  opacity: 0; /* Esconde o "+" no hover */
-}
-
-.btn-adicionar:hover .add-fila-text {
-  opacity: 1; /* Torna visível o texto "Adicionar Fila" */
-  transform: translateY(0); /* Faz o texto subir suavemente */
+  transition: opacity 0.3s ease;
+  display: flex;
+  justify-content: center;
 }
 
 .plus-sign img {
   width: 20%;
+}
+
+/* Botão dentro do fila-card */
+.fila-action-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.fila-action-button img {
+  width: 40px;
+}
+
+/* Efeito hover no botão */
+.fila-action-button:hover {
+  background-color: #f0f0f0;
+}
+
+.footer-text {
+  text-align: center; /* Centraliza o texto */
+  margin-top: 100px; /* Espaçamento acima do texto */
+  font-size: 14px; /* Tamanho do texto */
+  color: #888; /* Cor do texto */
+}
+
+.footer-text strong {
+  color: #cecece; /* Destaque para o texto */
+}
+
+.powered-by {
+  font-size: 12px; /* Texto menor */
+  margin-top: 5px; /* Espaçamento menor */
+  color: #ccc; /* Cor mais clara */
 }

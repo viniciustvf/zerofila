@@ -1,7 +1,15 @@
 <div class="container">
-  <button class="btn filas-btn" (click)="abrirFilas()">FILAS</button>
-  <footer>
-    <p>Zero Fila</p>
+  <h1 style="color: rgb(255, 255, 255); font-weight: 300; font-size: 25px;">
+    <span style="display: block;">Olá! <strong>{{empresaNome}}</strong></span>
+    Essa é a sua página principal
+  </h1>
+  <hr style="border: 0; border-top: 0.5px solid rgb(255, 255, 255); width: 300px;">
+  <button class="filas-btn" (click)="abrirFilas()">
+    <img src="queue-icon2.png" alt="Ícone de Fila" class="button-icon">
+    <span>Filas</span>
+  </button>
+  <div class="footer-text">
+    <p>zero<strong>fila</strong></p>
     <p class="powered-by">Powered by H&V</p>
-  </footer>
+  </div>
 </div>

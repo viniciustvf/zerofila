@@ -1,42 +1,47 @@
-<p-card class="form-card">
-    <div class="logo-container">
-      <img src="assets/logo-sushi.png" alt="Logo Sushi" class="logo" />
+<div class="fila-container">
+  <div class="form-container">
+    <h1 style="color: rgb(255, 255, 255); font-weight: 300; font-size: 25px; margin-left: 20px;">
+      <span style="display: block;">Cadastre</span>
+      sua <strong>Fila!</strong>
+    </h1>
+    <hr style="margin-bottom: 50px; border: 0; border-top: 0.5px solid rgb(255, 255, 255); width: 330px;">
+    <div class="input-group">
+      <input
+        [(ngModel)]="queueName"
+        type="text"
+        id="queueName"
+        placeholder="Nome da Fila"
+        class="input-field"
+      />
+      <small *ngIf="!queueNameValid && submitted" class="error-message">
+        O nome da fila é obrigatório.
+      </small>
     </div>
-    <p class="description-text">Para cadastrar uma nova fila, insira o nome e a capacidade máxima.</p>
-  
-    <div class="form-container">
-      <div class="input-group">
-        <input
-          [(ngModel)]="queueName"
-          type="text"
-          id="queueName"
-          placeholder="Nome da Fila"
-          class="input-field"
-        />
-        <small *ngIf="!queueNameValid && submitted" class="error-message">
-          O nome da fila é obrigatório.
-        </small>
-      </div>
-      <div class="input-group">
-        <input
-          [(ngModel)]="max"
-          type="number"
-          id="max"
-          placeholder="Capacidade máxima de pessoas"
-          class="input-field"
-        />
-        <small *ngIf="!maxValid && submitted" class="error-message">
-          A capacidade máxima deve ser maior que 0.
-        </small>
-      </div>
-      <div class="button-container">
-        <button pButton type="button" (click)="onSubmit()" label="Cadastrar Fila" class="submit-button"></button>
-      </div>
+    <div class="input-group">
+      <input
+        [(ngModel)]="max"
+        type="number"
+        id="max"
+        placeholder="Capacidade máxima de pessoas"
+        class="input-field"
+      >
+      <small *ngIf="!maxValid && submitted" class="error-message">
+        A capacidade máxima deve ser maior que 0.
+      </small>
     </div>
-  
+    <div class="button-container">
+      <button
+        pButton
+        type="button"
+        (click)="onSubmit()"
+        label="Cadastrar"
+        class="submit-button"
+      >
+      </button>
+    </div>
     <div class="footer-text">
-      <p>zero <strong>fila</strong></p>
+      <p>zero<strong>fila</strong></p>
       <p class="powered-by">Powered by H&V</p>
     </div>
-  </p-card>
-  
+  </div>
+</div>

@@ -1,20 +1,48 @@
-import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-
+import { Observable, tap } from 'rxjs';
+import { StorageService } from '../../../services/storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = 'http://localhost:3000/api/auth/login';
 
-  public showMenuEmitter = new EventEmitter<boolean>();
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private storageService: StorageService // Injeção do serviço seguro
+  ) {}
 
-  constructor(private router: Router, private http: HttpClient) {}
+  public login(email: string, password: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  public login(cpf: string): void {
-    this.showMenuEmitter.emit(true);
-    this.router.navigate(['']);
+    return this.http.post<{ accessToken: string; refreshToken: string; empresa: any }>(
+      this.apiUrl,
+      { email, password },
+      { headers }
+    ).pipe(
+      tap((response) => {
+        if (response.accessToken) {
+          this.storageService.setItem('accessToken', response.accessToken);
+          this.storageService.setItem('refreshToken', response.refreshToken);
+          this.storageService.setItem('empresa', JSON.stringify(response.empresa));
+        }
+      })
+    );
+  }
+
+  public logout(): void {
+    console.log('🚪 Logout efetuado');
+    this.storageService.removeItem('accessToken');
+    this.storageService.removeItem('refreshToken');
+    this.storageService.removeItem('empresa');
+    this.router.navigate(['/login']);
+  }
+
+  public getAccessToken(): string | null {
+    return this.storageService.getItem('accessToken');
   }
 }

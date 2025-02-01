@@ -1,28 +1,51 @@
-
+<p-confirmDialog></p-confirmDialog>
 <div class="container">
-  <section class="current-service">
-    <h3>Atendimento atual</h3>
-    <p class="current-number">6587425</p>
-  </section>
-  
-  <section class="queue">
-    <h3>Fila</h3>
-    <div class="queue-list">
-      <p>790087</p>
-      <p>548723</p>
-      <p>658742</p>
-      <p>726589</p>
-    </div>
-  </section>
-  
-  <div class="buttons">
-    <button class="history-btn">Ver histórico</button>
-    <button class="call-btn">Chamar</button>
-    <button class="add-btn">Adicionar</button>
+  <div class="title">
+    <h1 style="color: rgb(255, 255, 255); font-weight: 300; font-size: 25px; margin-left: 20px;">
+      <span style="display: block;">Fila de atendimento</span>
+      <strong>{{fila.name}}</strong>
+    </h1>
   </div>
-
-  <footer>
-    <p>Zero Fila</p>
-    <p class="powered-by">Powered by H&V</p>
-  </footer>
+  <hr style="margin-bottom: 50px; border: 0; border-top: 0.5px solid rgb(255, 255, 255); width: 330px;">
+  <div class="info-box">
+    <p style="text-align: center; font-weight: 200; font-size: 25px;">Cliente em atendimento</p>
+    <div class="ticket-name">
+      <ng-container *ngIf="calledClient; else noClient">
+        {{ calledClient.name }}
+      </ng-container>
+      <ng-template #noClient>
+        Nenhum cliente em atendimento
+      </ng-template>
+    </div>
+    <div class="arrows">
+      <img src="arrow.gif" style="width: 70px;" class="rotate">
+      <img src="arrow.gif" style="width: 70px;" class="rotate">
+    </div>
+    <div class="queue-container">
+      <p style="text-align: center; font-weight: 200; font-size: 20px;">Fila</p>
+      <div class="queue-list">
+        <div *ngFor="let client of clients">
+          {{ client.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button-container-fixed">
+    <button
+      pButton
+      type="button"
+      (click)="confirmCallNextClient()"
+      label="Chamar cliente"
+      class="submit-button-chamar"
+    >
+    </button>
+    <button
+      pButton
+      type="button"
+      (click)="addClient()"
+      label="Adicionar cliente"
+      class="submit-button"
+    >
+    </button>
+  </div>
 </div>

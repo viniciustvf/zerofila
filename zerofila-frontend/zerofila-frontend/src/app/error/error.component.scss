@@ -1,0 +1,49 @@
+.error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #ffffff;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 100%;
+  }
+  
+  .error-content {
+    max-width: 600px;
+    padding: 20px;
+  }
+  
+  .error-title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ffffff; /* Título cinza mais claro */
+    margin: 0;
+  }
+  
+  .error-message {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #d6d6d6; /* Texto principal */
+    margin: 10px 0;
+  }
+  
+  .error-details {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .error-url {
+    color: #007bff; /* Azul para destaque */
+    word-wrap: break-word;
+    font-weight: bold;
+  }
+  

@@ -24,7 +24,7 @@ export class Client {
     example: '48999072751',
     maxLength: 60,
   })
-  @Column({ length: 60 })
+  @Column({ length: 60, nullable: true })
   telefone: string;
 
   @ApiProperty({

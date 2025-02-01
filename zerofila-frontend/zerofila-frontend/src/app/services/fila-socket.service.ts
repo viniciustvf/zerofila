@@ -1,5 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID, inject, ApplicationRef } from '@angular/core';
-import { first, Observable, Subject } from 'rxjs';
+import { first, Observable, of, shareReplay, Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { Client } from '../models/client.interface';
 
@@ -15,12 +15,54 @@ export class FilaSocketService {
     inject(ApplicationRef).isStable.pipe(
       first((isStable) => isStable))
     .subscribe(() => { this.socket.connect() });
+
+    this.socket.on('connect', () => {
+      console.log('Conectado ao servidor WebSocket'); // Log de conexão
+    });
+    this.socket.on('connect_error', (error) => {
+      console.error('Erro na conexão WebSocket:', error); // Log de erro de conexão
+    });
   }
 
-  joinQueue(clientData: { name: string; telefone: string; filaId: string}): void {
+  joinQueue(clientData: { name: string; telefone?: string; filaId: string}): void {
     if (this.socket) {
       this.socket.emit('joinQueue', clientData);
+      console.log(clientData)
     }
+  }
+
+  joinRoom(filaId: string): void {
+    if (this.socket) {
+      this.socket.emit('joinRoom', { filaId });
+      console.log(`Entrando na sala da fila ${filaId}`);
+    }
+  }
+
+  leaveQueue(data: { filaId: string; telefone: string }): void {
+    this.socket.emit('leaveQueue', data);
+  }
+
+  viewQueue(filaId: { filaId: string}): Observable<void> {
+    if (this.socket) {
+      this.socket.emit('viewQueue', filaId);
+    }
+    return of(void 0);
+  }
+
+  callNextClient(filaId: string): void {
+    if (this.socket) {
+      this.socket.emit('callNextClient', filaId);
+    }
+  }
+
+  listenForClientCalled(): Observable<Client> {
+    return new Observable((observer) => {
+      this.socket.on('clientCalled', (client: Client) => {
+        observer.next(client);
+      });
+  
+      return () => this.socket.off('clientCalled');
+    });
   }
 
   listenForQueueUpdate(): Observable<Client[]> {
@@ -31,5 +73,22 @@ export class FilaSocketService {
   
       return () => this.socket.off('queueUpdate');
     });
+  }
+
+  listenForQueueUrlUpdate(): Observable<{ url: string }> {
+    return new Observable<{ url: string }>((observer) => {
+      this.socket.on('queueUrlUpdated', (data: { url: string }) => {
+        observer.next(data);
+      });
+
+      return () => this.socket.off('queueUrlUpdated');
+    });
+  }
+
+  viewQrCode(): Observable<void> {
+    if (this.socket) {
+      this.socket.emit('queueUrlUpdated');
+    }
+    return of(void 0);
   }
 }

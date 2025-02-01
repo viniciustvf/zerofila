@@ -11,9 +11,10 @@ import { EmpresaModule } from '@/empresa/empresa.module';
 import { FilaGateway } from './fila.gateway';
 import { Client } from '@/client/models/client.model';
 import { ClientModule } from '@/client/client.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Fila, Client]), MailerModule, EmpresaModule, forwardRef(() => ClientModule)],
+  imports: [TypeOrmModule.forFeature([Fila, Client]), MailerModule, EmpresaModule, forwardRef(() => ClientModule), ScheduleModule.forRoot()],
   controllers: [FilaController],
   providers: [
     {
