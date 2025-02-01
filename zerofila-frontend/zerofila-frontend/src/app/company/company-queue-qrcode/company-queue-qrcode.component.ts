@@ -17,6 +17,7 @@ export class CompanyQueueQrcodeComponent implements OnInit {
   queueId: string | null = null;
   url!: string;
   qrCodeSize: number = 800;
+  copied: boolean = false;
 
   @ViewChild('qrcodeContainer', { static: false }) qrcodeContainer!: ElementRef;
 
@@ -104,5 +105,20 @@ export class CompanyQueueQrcodeComponent implements OnInit {
       .catch((error: any) => {
         console.error('Erro ao gerar o QR Code:', error);
       });
+  }
+
+  copyToClipboard(): void {
+    if (!this.url) {
+      console.error('Nenhuma URL disponível para copiar.');
+      return;
+    }
+
+    const absoluteUrl = new URL(this.url, window.location.origin).toString();
+    navigator.clipboard.writeText(absoluteUrl).then(() => {
+      this.copied = true;
+      setTimeout(() => this.copied = false, 2000); // Oculta a mensagem após 2 segundos
+    }).catch((error) => {
+      console.error('Erro ao copiar a URL:', error);
+    });
   }
 }

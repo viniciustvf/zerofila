@@ -1,0 +1,14 @@
+.submit-button {
+    background-color: rgb(39, 39, 39);
+    padding: 10px 20px; /* Tamanho do botão */
+    font-size: 16px; /* Tamanho do texto */
+    color: #ffffff; /* Texto branco */
+    border-radius: 10px; /* Cantos arredondados */
+    cursor: pointer; /* Cursor de clique */
+    font-family: quicksand;
+    margin-bottom: 10px;
+  }
+
+  .submit-button:hover {
+    background-color: rgb(129, 167, 192);
+  }
