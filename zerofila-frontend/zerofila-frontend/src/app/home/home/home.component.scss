@@ -7,20 +7,9 @@
   width: 100%;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .title {
   font-size: 14px;
   color: #aaa;
-}
-
-.current-number {
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
 }
 
 .fila {
@@ -33,49 +22,48 @@
   color: #aaa;
 }
 
-.queue-numbers {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.queue-item {
-  font-size: 18px;
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  width: 150px;
-  text-align: center;
-}
-
 .filas-btn {
-  width: 200px;
-  height: 200px;
-  font-size: 24px;
-  font-weight: bold;
-  background-color: #000;
-  color: #fff;
+  display: flex; /* Ativa Flexbox para alinhar itens dentro do botão */
+  align-items: center; /* Alinha ícone e texto verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 10px; /* Espaço entre o ícone e o texto */
+  width: 340px;
+  font-weight: 500;
+  height: 100px;
+  font-size: 30px;
+  background: linear-gradient(45deg, #303030, #000000);
+  color: #ffffff;
   border: none;
-  border-radius: 10px;
+  border-radius: 30px;
   cursor: pointer;
   margin-top: 20px;
+  font-family: 'Quicksand';
+  border: 2px solid #1a71c2;
 }
+
+.button-icon {
+  width: 25px; /* Ajusta o tamanho do ícone */
+  height: 25px;
+}
+
 
 .filas-btn:hover {
   background-color: #333;
 }
 
-footer {
-  margin-top: 600px;
-  font-size: 14px;
+.footer-text {
+  text-align: center; /* Centraliza o texto */
+  margin-top: 100px; /* Espaçamento acima do texto */
+  font-size: 14px; /* Tamanho do texto */
+  color: #888; /* Cor do texto */
 }
 
-footer p {
-  margin: 5px 0;
+.footer-text strong {
+  color: #cecece; /* Destaque para o texto */
 }
 
 .powered-by {
-  color: #999;
+  font-size: 12px; /* Texto menor */
+  margin-top: 5px; /* Espaçamento menor */
+  color: #ccc; /* Cor mais clara */
 }

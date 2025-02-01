@@ -13,7 +13,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, fastifyAdapter);
     const configService = app.get(config_1.ConfigService);
     await fastifyAdapter.register(require('@fastify/cors'), {
-        origin: 'http://localhost:4200',
+        origin: '*',
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
         credentials: true,
     });

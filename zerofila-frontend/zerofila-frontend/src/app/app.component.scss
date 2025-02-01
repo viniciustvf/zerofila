@@ -1,16 +1,16 @@
 /* Barra superior com sombra */
 .menu {
+    height: 100px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff; /* Cor de fundo da barra superior */
+    align-items: flex-start; /* Alinha os itens ao topo */
+    background: linear-gradient(to bottom, #a5a5a5, #000000); /* Gradiente vertical */
     color: white;
-    padding: 10px 20px; /* Reduzindo o padding para tornar a barra mais fina */
+    padding: 10px 30px; /* Reduzindo o padding para tornar a barra mais fina */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000; /* Garante que a barra fique no topo */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
   }
   
@@ -23,21 +23,15 @@
   
   /* Ícone de voltar */
   .back-icon {
-    margin-left: 25px;
     font-size: 25px;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%; /* Tornando o fundo redondo */
-    color: #000000; /* Cor do ícone branco */
-    transition: background-color 0.3s, transform 0.3s; /* Transição suave */
+    color: #ffffff; /* Cor do ícone branco */
   }
 
   .back-icon img {
-    width: 8.509%;
-  }
-  
-  .back-icon:hover {
-    transform: scale(1.2);
+    width: 8%;
   }
   
   /* Ícone de menu */

@@ -12,7 +12,7 @@ import {
   ObjectUtils,
   PrimeTemplate,
   SharedModule
-} from "./chunk-VNVTAHXT.js";
+} from "./chunk-DZCM7IXS.js";
 import {
   ChangeDetectionStrategy,
   Component,

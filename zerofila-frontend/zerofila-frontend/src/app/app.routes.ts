@@ -7,21 +7,28 @@ import { CompanyQueueFormComponent } from './company/company-queue-form/company-
 import { CompanyQueueComponent } from './company/company-queue/company-queue.component';
 import { CompanyQueueListComponent } from './company/company-queue-list/company-queue-list.component';
 import { ClientQueueFormComponent } from './client/client-queue-form/client-queue-form.component';
+import { CompanyQueueAddClientComponent } from './company/company-queue-add-client/company-queue-add-client.component';
+import { CompanyQueueQrcodeComponent } from './company/company-queue-qrcode/company-queue-qrcode.component';
+import { ErrorComponent } from './error/error.component';
+import { AuthGuard } from './company/login/guards/auth.guard';
 
 export const routes: Routes = [
-    { path: 'company-queue', component: CompanyQueueComponent },
-    { path: 'company-queue-list', component: CompanyQueueListComponent },
-    { path: 'company-queue-form', component: CompanyQueueFormComponent },
-    
+    { path: 'company-queue', component: CompanyQueueComponent, canActivate: [AuthGuard] },
+    { path: 'company-queue-add-client', component: CompanyQueueAddClientComponent, canActivate: [AuthGuard] },
+    { path: 'company-queue-list', component: CompanyQueueListComponent, canActivate: [AuthGuard] },
+    { path: 'company-queue-form', component: CompanyQueueFormComponent, canActivate: [AuthGuard] },
+    { path: 'company-queue-qrcode', component: CompanyQueueQrcodeComponent, canActivate: [AuthGuard] },
+    { path: 'error', component: ErrorComponent },
+
     { path: 'client-queue-form', component: ClientQueueFormComponent },
     { path: 'client-queue', component: ClientQueueComponent },
-    
+
     { path: 'login', component: LoginComponent },
-    { path: '', component: HomeComponent },
-  ];
-  
-  @NgModule({
+    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+];
+
+@NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-  })
-  export class AppRoutingModule {}
+})
+export class AppRoutingModule {}

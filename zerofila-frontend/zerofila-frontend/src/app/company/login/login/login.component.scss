@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
   background-color: #ffffff;
 }
 
@@ -8,7 +7,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  width: 100%;
 }
 
 .login-card {
@@ -21,14 +25,8 @@ body {
 .title {
   font-size: 2rem;
   font-weight: bold;
-  color: #000;
+  color: #dadada;
   line-height: 1.2;
-}
-
-.subtitle {
-  margin: 1rem 0;
-  color: #333;
-  font-size: 1rem;
 }
 
 .login-input {
@@ -41,21 +39,18 @@ body {
   margin-bottom: 1rem;
 }
 
-.login-button {
-  width: 100%;
-  background-color: #000;
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.submit-button {
+  background-color: black;
+  padding: 10px 20px; /* Tamanho do botão */
+  font-size: 16px; /* Tamanho do texto */
+  color: #ffffff; /* Texto branco */
+  border-radius: 10px; /* Cantos arredondados */
+  cursor: pointer; /* Cursor de clique */
+  font-family: quicksand;
 }
 
-.login-button:hover {
-  background-color: #333;
+.submit-button:hover {
+  background-color: rgb(129, 167, 192);
 }
 
 .footer {

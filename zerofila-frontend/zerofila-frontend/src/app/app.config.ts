@@ -6,7 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -19,14 +19,14 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),  // Passando apenas as rotas aqui
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
     provideClientHydration(),
     importProvidersFrom(ToastModule),
-    importProvidersFrom(BrMaskerModule),  // Adicionando o BrMaskerModule aqui se for necessário para máscaras
+    importProvidersFrom(BrMaskerModule),
+    importProvidersFrom(ConfirmDialogModule),  // Adicionando o BrMaskerModule aqui se for necessário para máscaras
     provideEnvironmentNgxMask(),
     { provide: MessageService, useClass: MessageService },
     TableModule,
     ButtonModule,
-    ConfirmDialogModule
-  ],
+    ],
 };

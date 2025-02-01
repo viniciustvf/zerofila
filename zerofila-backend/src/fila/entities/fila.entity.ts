@@ -10,5 +10,6 @@ export class Fila {
       public status: boolean,
       public empresa: Empresa,
       public clients: Client[],
+      public calledClient: Client
     ) {}
   }

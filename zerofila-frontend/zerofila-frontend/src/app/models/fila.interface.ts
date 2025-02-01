@@ -1,4 +1,8 @@
+import { Client } from "./client.interface";
+
 export interface Fila {
+    id?: number  
+
     name: string;
   
     max: number;
@@ -8,5 +12,9 @@ export interface Fila {
     status: boolean;
   
     empresaId: number;
+
+    calledClient?: Client;
+
+    qtdClients?: number;
   }
   

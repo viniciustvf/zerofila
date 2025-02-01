@@ -1,60 +1,54 @@
 import {
   Calendar,
   CalendarModule
-} from "./chunk-CJBQGGIV.js";
-import {
-  InputNumber,
-  InputNumberModule
-} from "./chunk-AQQOAYDV.js";
-import {
-  InputText,
-  InputTextModule
-} from "./chunk-NHM5P34S.js";
+} from "./chunk-NR3XHIJK.js";
 import {
   Dropdown,
   DropdownModule,
   Scroller,
   ScrollerModule
-} from "./chunk-UEOFVX3J.js";
+} from "./chunk-TRTGHCMJ.js";
+import "./chunk-2F65I6ZQ.js";
 import {
   CheckIcon
-} from "./chunk-QGA7PMLR.js";
-import "./chunk-UDEE24UN.js";
+} from "./chunk-RXQYD6NU.js";
 import {
-  TimesIcon
-} from "./chunk-6WD6YTUO.js";
-import {
-  animate,
-  style,
-  transition,
-  trigger
-} from "./chunk-MNSGKEYZ.js";
-import {
-  DomSanitizer
-} from "./chunk-Q7YZ475C.js";
-import "./chunk-4K7IN7Q7.js";
-import {
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  NgControlStatus,
-  NgModel
-} from "./chunk-73L3ULS7.js";
+  InputNumber,
+  InputNumberModule
+} from "./chunk-TG5V4RJX.js";
 import {
   ButtonDirective,
   ButtonModule
-} from "./chunk-DGLJODVD.js";
+} from "./chunk-AR674DAF.js";
+import {
+  TimesIcon
+} from "./chunk-TJJZPKDR.js";
 import {
   AutoFocus,
   AutoFocusModule,
   SpinnerIcon
-} from "./chunk-7DEDPUCW.js";
+} from "./chunk-M62KS7XV.js";
 import {
   BaseIcon,
   ConnectedOverlayScrollHandler,
   DomHandler,
   Ripple,
   RippleModule
-} from "./chunk-5ILWXOKE.js";
+} from "./chunk-7EVMX5YY.js";
+import {
+  InputText,
+  InputTextModule
+} from "./chunk-3KKBWFUV.js";
+import {
+  animate,
+  style,
+  transition,
+  trigger
+} from "./chunk-6OE4HWNZ.js";
+import {
+  DomSanitizer
+} from "./chunk-4LN7OJ4Q.js";
+import "./chunk-3K7CKFGA.js";
 import {
   FilterMatchMode,
   FilterOperator,
@@ -67,7 +61,13 @@ import {
   TranslationKeys,
   UniqueComponentId,
   zindexutils
-} from "./chunk-IJXPVS3A.js";
+} from "./chunk-DVVKIX5E.js";
+import {
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  NgControlStatus,
+  NgModel
+} from "./chunk-2ACJPMGP.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -79,7 +79,7 @@ import {
   NgSwitchCase,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-TICNUERA.js";
+} from "./chunk-JBTSV7TY.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -159,14 +159,14 @@ import {
   ɵɵtwoWayListener,
   ɵɵtwoWayProperty,
   ɵɵviewQuery
-} from "./chunk-N3YL3YJH.js";
+} from "./chunk-PJWU4NRS.js";
 import {
   Subject
 } from "./chunk-WEUX34ES.js";
 import {
   __spreadProps,
   __spreadValues
-} from "./chunk-XWLXMCJQ.js";
+} from "./chunk-CX3I3NQG.js";
 
 // node_modules/primeng/fesm2022/primeng-icons-arrowdown.mjs
 var ArrowDownIcon = class _ArrowDownIcon extends BaseIcon {
@@ -4820,7 +4820,7 @@ function ColumnFilterFormElement_ng_container_0_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r0 = ɵɵnextContext();
     ɵɵadvance();
-    ɵɵproperty("ngTemplateOutlet", ctx_r0.filterTemplate)("ngTemplateOutletContext", ɵɵpureFunctionV(2, _c36, [ctx_r0.filterConstraint.value, ctx_r0.filterCallback, ctx_r0.type, ctx_r0.field, ctx_r0.filterConstraint, ctx_r0.placeholder, ctx_r0.minFractionDigits, ctx_r0.maxFractionDigits, ctx_r0.prefix, ctx_r0.suffix, ctx_r0.locale, ctx_r0.localeMatcher, ctx_r0.currency, ctx_r0.currencyDisplay, ctx_r0.useGrouping, ctx_r0.showButtons]));
+    ɵɵproperty("ngTemplateOutlet", ctx_r0.filterTemplate)("ngTemplateOutletContext", ɵɵpureFunctionV(2, _c36, [ctx_r0.filterConstraint == null ? null : ctx_r0.filterConstraint.value, ctx_r0.filterCallback, ctx_r0.type, ctx_r0.field, ctx_r0.filterConstraint, ctx_r0.placeholder, ctx_r0.minFractionDigits, ctx_r0.maxFractionDigits, ctx_r0.prefix, ctx_r0.suffix, ctx_r0.locale, ctx_r0.localeMatcher, ctx_r0.currency, ctx_r0.currencyDisplay, ctx_r0.useGrouping, ctx_r0.showButtons]));
   }
 }
 function ColumnFilterFormElement_ng_template_1_input_1_Template(rf, ctx) {
@@ -6897,7 +6897,7 @@ var Table = class _Table {
   }
   onColumnResizeBegin(event) {
     let containerLeft = DomHandler.getOffset(this.containerViewChild?.nativeElement).left;
-    this.resizeColumnElement = event.target.parentElement;
+    this.resizeColumnElement = event.target.closest("th");
     this.columnResizing = true;
     if (event.type == "touchstart") {
       this.lastResizerHelperX = event.changedTouches[0].clientX - containerLeft + this.containerViewChild?.nativeElement.scrollLeft;
@@ -6920,20 +6920,21 @@ var Table = class _Table {
     this.resizeHelperViewChild.nativeElement.style.display = "block";
   }
   onColumnResizeEnd() {
-    let delta = this.resizeHelperViewChild?.nativeElement.offsetLeft - this.lastResizerHelperX;
-    let columnWidth = this.resizeColumnElement.offsetWidth;
-    let newColumnWidth = columnWidth + delta;
-    let minWidth = this.resizeColumnElement.style.minWidth.replace(/[^\d.]/g, "") || 15;
+    const delta = this.resizeHelperViewChild?.nativeElement.offsetLeft - this.lastResizerHelperX;
+    const columnWidth = this.resizeColumnElement.offsetWidth;
+    const newColumnWidth = columnWidth + delta;
+    const elementMinWidth = this.resizeColumnElement.style.minWidth.replace(/[^\d.]/g, "");
+    const minWidth = elementMinWidth ? parseFloat(elementMinWidth) : 15;
     if (newColumnWidth >= minWidth) {
       if (this.columnResizeMode === "fit") {
-        let nextColumn = this.resizeColumnElement.nextElementSibling;
-        let nextColumnWidth = nextColumn.offsetWidth - delta;
+        const nextColumn = this.resizeColumnElement.nextElementSibling;
+        const nextColumnWidth = nextColumn.offsetWidth - delta;
         if (newColumnWidth > 15 && nextColumnWidth > 15) {
           this.resizeTableCells(newColumnWidth, nextColumnWidth);
         }
       } else if (this.columnResizeMode === "expand") {
         this._initialColWidths = this._totalTableWidth();
-        let tableWidth = this.tableViewChild?.nativeElement.offsetWidth + delta;
+        const tableWidth = this.tableViewChild?.nativeElement.offsetWidth + delta;
         this.setResizeTableWidth(tableWidth + "px");
         this.resizeTableCells(newColumnWidth, null);
       }
@@ -11520,7 +11521,7 @@ var ColumnFilter = class _ColumnFilter {
     this.hide();
   }
   isRowMatchModeSelected(matchMode) {
-    return this.dt.filters[this.field].matchMode === matchMode;
+    return this.dt.filters[this.field]?.matchMode === matchMode;
   }
   addConstraint() {
     this.dt.filters[this.field].push({
@@ -12245,7 +12246,7 @@ var ColumnFilterFormElement = class _ColumnFilterFormElement {
                 *ngTemplateOutlet="
                     filterTemplate;
                     context: {
-                        $implicit: filterConstraint.value,
+                        $implicit: filterConstraint?.value,
                         filterCallback: filterCallback,
                         type: type,
                         field: field,

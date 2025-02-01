@@ -1,5 +1,5 @@
 import { Empresa } from '@/empresa/models/empresa.model';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Client } from '@/client/models/client.model';
 
@@ -42,9 +42,10 @@ export class Fila {
 
   @ApiProperty({
     description: 'Empresa associada à fila',
-    type: () => Empresa, // Indica o tipo relacionado
+    type: () => Empresa,
   })
   @ManyToOne(() => Empresa, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'empresaId' })
   empresa: Empresa;
 
   @ApiProperty({
@@ -53,4 +54,12 @@ export class Fila {
   })
   @OneToMany(() => Client, (client) => client.fila)
   clients: Client[];
+
+  @ApiProperty({
+    description: 'Cliente atualmente em atendimento',
+    type: () => Client,
+  })
+  @OneToOne(() => Client, { nullable: true })
+  @JoinColumn()
+  calledClient: Client | null;
 }

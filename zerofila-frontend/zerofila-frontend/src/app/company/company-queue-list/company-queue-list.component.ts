@@ -35,10 +35,22 @@ export class CompanyQueueListComponent {
   }
 
   verDetalhes(fila: Fila): void {
-    this.router.navigate(['/company-queue']);
+    this.router.navigate(['/company-queue'], {
+      queryParams: {
+        id: fila.id,
+      }
+    });
   }
 
   adicionarFila(): void {
     this.router.navigate(['/company-queue-form']);
+  }
+
+  abrirQrCode(fila: Fila): void {
+    this.router.navigate(['/company-queue-qrcode'], {
+      queryParams: {
+        id: fila.id,
+      }
+    });
   }
 }

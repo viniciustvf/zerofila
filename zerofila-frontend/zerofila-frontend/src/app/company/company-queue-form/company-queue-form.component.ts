@@ -31,6 +31,7 @@ export class CompanyQueueFormComponent {
   
   queueName: string = '';
   max: number = 0;
+  empresaId: number | null = null;
 
   submitted: boolean = false;
 
@@ -44,16 +45,29 @@ export class CompanyQueueFormComponent {
     return this.max !== null && this.max > 0;
   }
 
+  ngOnInit(): void {
+    const empresaData = sessionStorage.getItem('empresa');
+
+    if (empresaData) {
+      try {
+        const empresa = JSON.parse(empresaData); 
+        this.empresaId = empresa.id;
+      } catch (error) {
+        console.error('Erro ao recuperar os dados da empresa:', error);
+      }
+    }
+  }
+
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.queueNameValid && this.maxValid) {
+    if (this.queueNameValid && this.maxValid && this.empresaId) {
       const fila: Fila = {
         name: this.queueName.trim(),
         max: this.max,
         url: 'example.com.br', 
         status: true,
-        empresaId: 1,
+        empresaId: this.empresaId,
       };
 
       this.queueService.criaFila(fila).subscribe({

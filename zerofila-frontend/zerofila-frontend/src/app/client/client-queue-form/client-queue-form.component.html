@@ -1,50 +1,90 @@
-<p-card class="form-card" *ngIf="showForm">
-  <p class="description-text">
-    Para entrar na fila de espera, insira seu nome e número de celular abaixo.
-  </p>
 
-  <div class="form-container">
-    <div class="input-group">
-      <input
-        [(ngModel)]="clientData.name"
-        type="text"
-        id="txtName"
-        name="name"
-        placeholder="Nome"
-        class="input-field"
-        required
-      />
-    </div>
-    <div class="input-group">
-      <input
-        [(ngModel)]="clientData.telefone"
-        type="tel"
-        id="txtPhone"
-        name="telefone"
-        placeholder="Celular"
-        class="input-field"
-        required
-      />
-    </div>
-    <div class="button-container">
-      <button (click)="proximo()" class="submit-button">Salvar</button>
+<div class="container">
+  <div class="form-container" *ngIf="showForm">
+    <p class="description-text" style="font-size: 20px; display: block; text-align: center;">
+      Insira seus dados para entrar na <strong>Fila.</strong>
+    </p>
+    <hr style="border: 0; border-top: 0.5px solid rgb(255, 255, 255); width: 300px; margin-bottom: 30px;">
+    <div class="form-container">
+      <div class="input-group">
+        <input
+          [(ngModel)]="clientData.name"
+          type="text"
+          id="txtName"
+          name="name"
+          placeholder="Nome"
+          class="input-field"
+          required
+        />
+        <input
+          [(ngModel)]="clientData.telefone"
+          type="tel"
+          id="txtPhone"
+          name="telefone"
+          placeholder="Celular"
+          class="input-field"
+          mask="(00) 0 0000 0000"
+          required
+        />
+      </div>
+      <div class="button-container">
+        <button
+          pButton
+          type="button"
+          (click)="proximo()"
+          label="Entrar na fila"
+          class="submit-button-entrar"
+        >
+        </button>
+      </div>
+      <div class="footer-text">
+        <p>zero<strong>fila</strong></p>
+        <p class="powered-by">Powered by H&V</p>
+      </div>
     </div>
   </div>
-</p-card>
 
-<!-- Grid com as filas -->
-<div *ngIf="!showForm" class="grid-container">
-  <h2>Clientes na fila</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Nome do cliente</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let client of clients">
-        <td>{{ client.name }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Grid com as filas -->
+  <div class="ticket-container" *ngIf="!showForm">
+    <p class="description-text">
+      Abaixo segue o nome do cliente em atendimento, aguarde ser chamado.
+    </p>
+
+    <div class="info-box">
+      <div class="ticket-name">
+        <ng-container *ngIf="calledClient; else noClient">
+          {{ calledClient.name }}
+        </ng-container>
+        <ng-template #noClient>
+          Nenhum cliente em atendimento
+        </ng-template>
+      </div>
+      <div class="arrows">
+        <img src="arrow.gif" style="width: 70px;" class="rotate">
+        <img src="arrow.gif" style="width: 70px;" class="rotate">
+      </div>
+      <div class="queue-container">
+        <p>Fila</p>
+        <div class="queue-list">
+          <div *ngFor="let client of clients">
+            {{ client.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button
+        pButton
+        type="button"
+        (click)="cancel()"
+        label="Cancelar"
+        class="submit-button"
+      >
+      </button>
+    </div>
+    <div class="footer-text">
+      <p>zero<strong>fila</strong></p>
+      <p class="powered-by">Powered by H&V</p>
+    </div>
+  </div>
 </div>

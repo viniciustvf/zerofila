@@ -1,51 +1,29 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
-  InputNumber,
-  InputNumberModule
-} from "./chunk-F7VAAY3F.js";
-import {
-  Calendar,
-  CalendarModule
-} from "./chunk-SAKR6G2Y.js";
-import {
-  ButtonDirective,
-  ButtonModule
-} from "./chunk-PURNP3VN.js";
-import {
-  InputText,
-  InputTextModule
-} from "./chunk-2P4MPRKX.js";
-import {
   Dropdown,
   DropdownModule,
   Scroller,
   ScrollerModule
-} from "./chunk-LKFZTCQT.js";
+} from "./chunk-TEKFFWJV.js";
+import {
+  InputNumber,
+  InputNumberModule
+} from "./chunk-YSL2TDM6.js";
+import {
+  InputText,
+  InputTextModule
+} from "./chunk-PFTFDVF4.js";
+import {
+  Calendar,
+  CalendarModule
+} from "./chunk-LSBDPKJB.js";
+import "./chunk-T2WIHWF5.js";
 import {
   CheckIcon
-} from "./chunk-WRXAY7JL.js";
-import "./chunk-CDP7C3B6.js";
+} from "./chunk-I2ZZMG7Q.js";
 import {
   TimesIcon
-} from "./chunk-SRKUKS7L.js";
-import {
-  AutoFocus,
-  AutoFocusModule,
-  SpinnerIcon
-} from "./chunk-RZWI7NOD.js";
-import {
-  BaseIcon,
-  ConnectedOverlayScrollHandler,
-  DomHandler,
-  Ripple,
-  RippleModule
-} from "./chunk-FNBLH2OF.js";
-import {
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  NgControlStatus,
-  NgModel
-} from "./chunk-VDFVOPCH.js";
+} from "./chunk-V4TDW5WK.js";
 import {
   animate,
   style,
@@ -56,6 +34,28 @@ import {
   DomSanitizer
 } from "./chunk-ISQ6R4FL.js";
 import "./chunk-W66IANAI.js";
+import {
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  NgControlStatus,
+  NgModel
+} from "./chunk-VDFVOPCH.js";
+import {
+  ButtonDirective,
+  ButtonModule
+} from "./chunk-ZHNIPYAC.js";
+import {
+  AutoFocus,
+  AutoFocusModule,
+  SpinnerIcon
+} from "./chunk-NJ7HVROQ.js";
+import {
+  BaseIcon,
+  ConnectedOverlayScrollHandler,
+  DomHandler,
+  Ripple,
+  RippleModule
+} from "./chunk-FY2736VM.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -80,7 +80,7 @@ import {
   TranslationKeys,
   UniqueComponentId,
   zindexutils
-} from "./chunk-VNVTAHXT.js";
+} from "./chunk-DZCM7IXS.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -4823,7 +4823,7 @@ function ColumnFilterFormElement_ng_container_0_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r0 = ɵɵnextContext();
     ɵɵadvance();
-    ɵɵproperty("ngTemplateOutlet", ctx_r0.filterTemplate)("ngTemplateOutletContext", ɵɵpureFunctionV(2, _c36, [ctx_r0.filterConstraint.value, ctx_r0.filterCallback, ctx_r0.type, ctx_r0.field, ctx_r0.filterConstraint, ctx_r0.placeholder, ctx_r0.minFractionDigits, ctx_r0.maxFractionDigits, ctx_r0.prefix, ctx_r0.suffix, ctx_r0.locale, ctx_r0.localeMatcher, ctx_r0.currency, ctx_r0.currencyDisplay, ctx_r0.useGrouping, ctx_r0.showButtons]));
+    ɵɵproperty("ngTemplateOutlet", ctx_r0.filterTemplate)("ngTemplateOutletContext", ɵɵpureFunctionV(2, _c36, [ctx_r0.filterConstraint == null ? null : ctx_r0.filterConstraint.value, ctx_r0.filterCallback, ctx_r0.type, ctx_r0.field, ctx_r0.filterConstraint, ctx_r0.placeholder, ctx_r0.minFractionDigits, ctx_r0.maxFractionDigits, ctx_r0.prefix, ctx_r0.suffix, ctx_r0.locale, ctx_r0.localeMatcher, ctx_r0.currency, ctx_r0.currencyDisplay, ctx_r0.useGrouping, ctx_r0.showButtons]));
   }
 }
 function ColumnFilterFormElement_ng_template_1_input_1_Template(rf, ctx) {
@@ -6900,7 +6900,7 @@ var Table = class _Table {
   }
   onColumnResizeBegin(event) {
     let containerLeft = DomHandler.getOffset(this.containerViewChild?.nativeElement).left;
-    this.resizeColumnElement = event.target.parentElement;
+    this.resizeColumnElement = event.target.closest("th");
     this.columnResizing = true;
     if (event.type == "touchstart") {
       this.lastResizerHelperX = event.changedTouches[0].clientX - containerLeft + this.containerViewChild?.nativeElement.scrollLeft;
@@ -6923,20 +6923,21 @@ var Table = class _Table {
     this.resizeHelperViewChild.nativeElement.style.display = "block";
   }
   onColumnResizeEnd() {
-    let delta = this.resizeHelperViewChild?.nativeElement.offsetLeft - this.lastResizerHelperX;
-    let columnWidth = this.resizeColumnElement.offsetWidth;
-    let newColumnWidth = columnWidth + delta;
-    let minWidth = this.resizeColumnElement.style.minWidth.replace(/[^\d.]/g, "") || 15;
+    const delta = this.resizeHelperViewChild?.nativeElement.offsetLeft - this.lastResizerHelperX;
+    const columnWidth = this.resizeColumnElement.offsetWidth;
+    const newColumnWidth = columnWidth + delta;
+    const elementMinWidth = this.resizeColumnElement.style.minWidth.replace(/[^\d.]/g, "");
+    const minWidth = elementMinWidth ? parseFloat(elementMinWidth) : 15;
     if (newColumnWidth >= minWidth) {
       if (this.columnResizeMode === "fit") {
-        let nextColumn = this.resizeColumnElement.nextElementSibling;
-        let nextColumnWidth = nextColumn.offsetWidth - delta;
+        const nextColumn = this.resizeColumnElement.nextElementSibling;
+        const nextColumnWidth = nextColumn.offsetWidth - delta;
         if (newColumnWidth > 15 && nextColumnWidth > 15) {
           this.resizeTableCells(newColumnWidth, nextColumnWidth);
         }
       } else if (this.columnResizeMode === "expand") {
         this._initialColWidths = this._totalTableWidth();
-        let tableWidth = this.tableViewChild?.nativeElement.offsetWidth + delta;
+        const tableWidth = this.tableViewChild?.nativeElement.offsetWidth + delta;
         this.setResizeTableWidth(tableWidth + "px");
         this.resizeTableCells(newColumnWidth, null);
       }
@@ -11523,7 +11524,7 @@ var ColumnFilter = class _ColumnFilter {
     this.hide();
   }
   isRowMatchModeSelected(matchMode) {
-    return this.dt.filters[this.field].matchMode === matchMode;
+    return this.dt.filters[this.field]?.matchMode === matchMode;
   }
   addConstraint() {
     this.dt.filters[this.field].push({
@@ -12248,7 +12249,7 @@ var ColumnFilterFormElement = class _ColumnFilterFormElement {
                 *ngTemplateOutlet="
                     filterTemplate;
                     context: {
-                        $implicit: filterConstraint.value,
+                        $implicit: filterConstraint?.value,
                         filterCallback: filterCallback,
                         type: type,
                         field: field,

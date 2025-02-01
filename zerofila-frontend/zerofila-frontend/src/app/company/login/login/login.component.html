@@ -1,26 +1,38 @@
 <div class="login-container">
   <div class="login-card">
-    <h1 class="title">zero<br>fila</h1>
-    <p class="subtitle">Insira seu login e senha para acessar o painel.</p>
-    <form class="p-fluid">
+    <img src="z-white.png" style="width: 60px;" alt="Z" />
+    <h1 class="title" style="margin-bottom: 80px; font-weight: 200;">
+      Zero<b style="font-weight: 1000;">fila</b>
+    </h1>
+
+    <form class="p-fluid" (ngSubmit)="onLogin()">
       <div class="field">
         <input
           pInputText
           type="text"
-          placeholder="Login"
+          [(ngModel)]="login.email"
+          name="email"
+          placeholder="Email"
           class="login-input"
+          required
         />
       </div>
       <div class="field">
         <input
           pInputText
           type="password"
+          [(ngModel)]="login.password"
+          name="password"
           placeholder="Senha"
           class="login-input"
+          required
         />
       </div>
-      <button pButton type="submit" label="Entrar" class="login-button" (click)="onLogin()">Login</button>
+      <button pButton type="submit" label="Login" class="submit-button"></button>
     </form>
+
     <p class="footer">Powered by H&V</p>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
 </div>

@@ -1,0 +1,35 @@
+
+<div class="container">
+  <div class="form-container">
+    <p class="description-text" style="font-size: 20px; display: block; text-align: center;">
+      Informe o nome do cliente a ser inserido manualmente na
+      <strong>Fila.</strong>
+    </p>
+    <hr style="border: 0; border-top: 0.5px solid rgb(255, 255, 255); width: 300px;">
+    <div class="input-group">
+      <input
+        [(ngModel)]="clientName"
+        type="text"
+        id="txtName"
+        name="name"
+        placeholder="Nome"
+        class="input-field"
+        required
+      />
+    </div>
+    <div class="button-container">
+      <button
+      pButton
+      type="button"
+      (click)="proximo()"
+      label="Adicionar na fila"
+      class="submit-button"
+      >
+      </button>
+    </div>
+    <div class="footer-text">
+      <p>zero<strong>fila</strong></p>
+      <p class="powered-by">Powered by H&V</p>
+    </div>
+  </div>
+</div>
