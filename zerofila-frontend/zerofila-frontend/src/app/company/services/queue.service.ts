@@ -31,9 +31,18 @@ export class QueueService {
    * @returns Observable com a resposta do backend
    */
   criaFila(fila: Fila): Observable<Fila> {
-    console.log(fila);
     return this.http.post<Fila>(this.apiUrl, fila, { headers: this.getHeaders() });
   }
+
+    /**
+   * Atualiza uma fila existente.
+   * @param filaId ID da fila a ser atualizada
+   * @param filaData Dados a serem atualizados
+   * @returns Observable com a resposta do backend
+   */
+    updateFila(filaId: number, filaData: Partial<Fila>): Observable<any> {
+      return this.http.put<any>(`${this.apiUrl}/${filaId}`, filaData, { headers: this.getHeaders() });
+    }
 
   /**
    * Busca todas as filas.
@@ -104,6 +113,19 @@ export class QueueService {
     return this.http.get<{ exists: boolean; client?: Client }>(
       `${this.apiUrl}/check-client`,
       { headers: this.getHeaders(), params }
+    );
+  }
+
+  /**
+   * Obtém o tempo estimado de atendimento da fila.
+   * @param queueId ID da fila
+   * @returns Observable com o tempo estimado de espera
+   */
+  getEstimatedWaitTime(queueId: string): Observable<{ estimatedTime: number }> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get<{ estimatedTime: number }>(
+      `${this.apiUrl}/${queueId}/estimated-time`,
+      { headers: headers }
     );
   }
 }

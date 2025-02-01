@@ -9,6 +9,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { QueueService } from '../services/queue.service';
 import { Fila } from '../../models/fila.interface';
 import { CommonModule } from '@angular/common';
+import { Router } from 'express';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company-queue-form',
@@ -29,13 +31,14 @@ import { CommonModule } from '@angular/common';
 })
 export class CompanyQueueFormComponent {
   
+  filaId: string | null = null;
   queueName: string = '';
-  max: number = 0;
+  max!: number;
   empresaId: number | null = null;
 
   submitted: boolean = false;
 
-  constructor(private queueService: QueueService) {}
+  constructor(private queueService: QueueService, private route: ActivatedRoute) {}
 
   get queueNameValid(): boolean {
     return this.queueName.trim().length > 0;
@@ -46,6 +49,13 @@ export class CompanyQueueFormComponent {
   }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      this.queueName = params.get('name') || '';
+      this.max = +(params.get('max') ?? 0);
+      this.empresaId = params.get('empresaId') !== null ? +params.get('empresaId')! : null;
+      this.filaId = params.get('id');
+    });
+
     const empresaData = sessionStorage.getItem('empresa');
 
     if (empresaData) {
@@ -60,31 +70,55 @@ export class CompanyQueueFormComponent {
 
   onSubmit(): void {
     this.submitted = true;
-
+  
     if (this.queueNameValid && this.maxValid && this.empresaId) {
-      const fila: Fila = {
-        name: this.queueName.trim(),
-        max: this.max,
-        url: 'example.com.br', 
-        status: true,
-        empresaId: this.empresaId,
-      };
-
-      this.queueService.criaFila(fila).subscribe({
-        next: (response) => {
-          console.log('Fila cadastrada com sucesso:');
-          alert('Fila cadastrada com sucesso!');
-          this.resetForm();
-        },
-        error: (error) => {
-          console.error('Erro ao cadastrar fila:', error);
-          alert('Erro ao cadastrar fila.');
-        },
-      });
+      if (!this.queueName) {
+        console.error('O nome da fila é obrigatório.');
+        return;
+      }
+  
+      if (this.filaId) {
+        const filaUpdate: Partial<Fila> = {
+          name: this.queueName.trim(),
+          max: this.max,
+          url: 'example.com.br',
+          status: true,
+          empresaId: this.empresaId,
+        };
+  
+        this.queueService.updateFila(Number(this.filaId), filaUpdate).subscribe({
+          next: () => {
+            this.resetForm();
+            window.history.back();
+          },
+          error: (error) => {
+            console.error('Erro ao atualizar fila:', error);
+          },
+        });
+      } else {
+        const filaCreate: Fila = {
+          id: undefined,
+          name: this.queueName.trim(),
+          max: this.max,
+          url: 'example.com.br',
+          status: true,
+          empresaId: this.empresaId,
+        };
+  
+        this.queueService.criaFila(filaCreate).subscribe({
+          next: () => {
+            this.resetForm();
+            window.history.back();
+          },
+          error: (error) => {
+            console.error('Erro ao cadastrar fila:', error);
+          },
+        });
+      }
     } else {
       console.error('Por favor, corrija os erros antes de enviar.');
     }
-  }
+  }  
 
   resetForm(): void {
     this.queueName = '';

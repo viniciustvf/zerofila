@@ -253,6 +253,14 @@ body {
       justify-content: center;
       font-size: 25px;
   }
+
+  .description-text-estimated {
+    color: #ffffff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+  }
   
   .form-container {
       width: 100%;
@@ -403,4 +411,30 @@ body {
   .rotate {
     transform: rotate(180deg); 
     display: inline-block;
+  }
+
+  @keyframes blink {
+    0% { opacity: 0; }
+    33% { opacity: 1; }
+    66% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  
+  .loading-dots span {
+    opacity: 0;
+    animation-name: blink;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+  }
+  
+  .loading-dots span:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  .loading-dots span:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  
+  .loading-dots span:nth-child(3) {
+    animation-delay: 1s;
   }

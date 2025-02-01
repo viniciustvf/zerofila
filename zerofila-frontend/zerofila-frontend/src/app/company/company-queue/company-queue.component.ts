@@ -15,7 +15,7 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-company-queue',
@@ -43,6 +43,8 @@ export class CompanyQueueComponent {
     telefone: '',
   };
 
+  estimatedTime: number = 0;
+
   private readonly URL = 'http://localhost:4000/ws';
 
   filaId: string | null = null;
@@ -67,7 +69,8 @@ export class CompanyQueueComponent {
     private queueService: QueueService,
     private clientService: ClientService,
     private router: Router,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) {}
   
   ngOnInit(): void {
@@ -81,6 +84,7 @@ export class CompanyQueueComponent {
           if (fila.calledClient) {
             this.calledClient = fila.calledClient
           }
+          this.fetchEstimatedTime();
         });
   
         this.filaSocketService
@@ -90,11 +94,13 @@ export class CompanyQueueComponent {
             if (sortedClients) {
               this.clients = sortedClients;
             }
+            this.fetchEstimatedTime();
             this.cdr.detectChanges();
           });
   
         this.filaSocketService.listenForClientCalled().subscribe((client) => {
           this.calledClient = client;
+          this.fetchEstimatedTime();
           this.cdr.detectChanges();
         });
       } else {
@@ -132,4 +138,49 @@ export class CompanyQueueComponent {
       }
     });
   }
+
+  getFormattedEstimatedTime(): string {
+    if (this.estimatedTime < 1) {
+      return `${Math.round(this.estimatedTime * 60)} segundos`;
+    } else if (this.estimatedTime >= 60) {
+      const hours = Math.floor(this.estimatedTime / 60);
+      const minutes = Math.round(this.estimatedTime % 60);
+  
+      if (minutes === 0) {
+        return `${hours} hora${hours > 1 ? 's' : ''}`;
+      } else {
+        return `${hours} hora${hours > 1 ? 's' : ''} e ${minutes} minuto${minutes > 1 ? 's' : ''}`;
+      }
+    } else {
+      return `${Math.round(this.estimatedTime)} minuto${this.estimatedTime > 1 ? 's' : ''}`;
+    }
+  }
+
+  fetchEstimatedTime(): void {
+    if (!this.filaId) {
+      return;
+    }
+  
+    this.queueService.getEstimatedWaitTime(this.filaId).subscribe(
+      (response) => {
+        this.estimatedTime = response.estimatedTime;
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error('Erro ao obter tempo estimado:', error);
+      }
+    );
+  }
+
+  editQueue() {
+    this.router.navigate(['/company-queue-form'], {
+      queryParams: {
+        id: this.fila.id,
+        name: this.fila.name,
+        max: this.fila.max,
+        empresaId: this.fila.empresaId,
+      }
+    });
+  }
+  
 }

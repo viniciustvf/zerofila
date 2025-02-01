@@ -5,6 +5,12 @@
       <span style="display: block;">Fila de atendimento</span>
       <strong>{{fila.name}}</strong>
     </h1>
+    <div class="edit-fila">
+      <button pButton class="edit-button" (click)="editQueue()">
+        <i class="pi pi-pencil" style="margin-right: 8px;"></i>
+        Editar fila
+      </button>
+    </div>
   </div>
   <hr style="margin-bottom: 50px; border: 0; border-top: 0.5px solid rgb(255, 255, 255); width: 330px;">
   <div class="info-box">
@@ -30,6 +36,11 @@
       </div>
     </div>
   </div>
+  <p class="description-text-estimated">
+    Tempo estimado de atendimento:&nbsp;
+    <strong *ngIf="estimatedTime > 0">{{ getFormattedEstimatedTime() }}</strong>
+    <strong *ngIf="estimatedTime === 0" class="loading-dots">Calculando<span>.</span><span>.</span><span>.</span></strong>
+  </p>
   <div class="button-container-fixed">
     <button
       pButton

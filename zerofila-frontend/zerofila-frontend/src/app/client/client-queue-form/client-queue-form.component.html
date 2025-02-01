@@ -1,4 +1,4 @@
-
+<p-confirmDialog></p-confirmDialog>
 <div class="container">
   <div class="form-container" *ngIf="showForm">
     <p class="description-text" style="font-size: 20px; display: block; text-align: center;">
@@ -72,11 +72,16 @@
         </div>
       </div>
     </div>
+    <p class="description-text-estimated">
+      Tempo estimado de atendimento:&nbsp;
+      <strong *ngIf="estimatedTime > 0">{{ getFormattedEstimatedTime() }}</strong>
+      <strong *ngIf="estimatedTime === 0" class="loading-dots">Calculando<span>.</span><span>.</span><span>.</span></strong>
+    </p>
     <div class="button-container">
       <button
         pButton
         type="button"
-        (click)="cancel()"
+        (click)="confirmCancel()"
         label="Cancelar"
         class="submit-button"
       >
