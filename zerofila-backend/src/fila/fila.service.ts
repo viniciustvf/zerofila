@@ -17,6 +17,8 @@ import * as crypto from 'crypto';
 import { Cron } from '@nestjs/schedule';
 import { Twilio } from 'twilio/lib';
 import { Client } from '@/client/models/client.model';
+import { ClientTypeOrmRepository } from '@/client/repositories/implementations/client.typeorm.repository';
+import { CLIENT_REPOSITORY_TOKEN } from '@/client/repositories/client.repository.interface';
   
 @Injectable()
 export class FilaService {
@@ -28,6 +30,9 @@ export class FilaService {
   constructor(
     @Inject(FILA_REPOSITORY_TOKEN)
     private readonly filaRepository: FilaTypeOrmRepository,
+
+    @Inject(CLIENT_REPOSITORY_TOKEN)
+    private readonly clientRepository: ClientTypeOrmRepository,
 
     @Inject(EMPRESA_REPOSITORY_TOKEN)
     private readonly empresaRepository: EmpresaTypeOrmRepository,
@@ -142,8 +147,6 @@ export class FilaService {
       await this.filaRepository.updateFila(fila.id.toString(), fila);
 
       this.filaGateway.notifyQueueUrlUpdate(fila.id.toString(), updatedUrl);
-
-      console.log(`Updated fila #${fila.id} with URL: ${updatedUrl}`);
     }
   }
 
@@ -250,5 +253,67 @@ export class FilaService {
       throw error;
     }
   }
+
+  public async getEstimatedWaitTime(filaId: string): Promise<{ estimatedTime: number }> {
+    // Buscar clientes que já foram atendidos e possuem exitTime válido
+    const attendedClients = await this.clientRepository.findByLastFilaId(filaId);
+    const validClients = attendedClients.filter(client => client.exitTime); // Filtra apenas clientes com exitTime
+  
+    if (validClients.length === 0) {
+      console.warn(`Nenhum cliente atendido encontrado para fila ${filaId}.`);
+      return { estimatedTime: 0 };
+    }
+  
+    const totalServiceTime = validClients.reduce((sum, client) => {
+      if (!client.entryTime || !client.exitTime) {
+        console.warn(`Cliente ${client.id} tem horários inválidos: entryTime=${client.entryTime}, exitTime=${client.exitTime}`);
+        return sum; // Ignora clientes sem horários válidos
+      }
+  
+      // Garante que entryTime e exitTime sejam convertidos corretamente
+      const entryTime = new Date(client.entryTime);
+      const exitTime = new Date(client.exitTime);
+  
+      // Verifica se os valores são válidos
+      if (isNaN(entryTime.getTime()) || isNaN(exitTime.getTime())) {
+        console.error(`Erro ao converter datas para cliente ${client.id}: entryTime=${client.entryTime}, exitTime=${client.exitTime}`);
+        return sum;
+      }
+  
+      // Garante que exitTime seja sempre maior que entryTime
+      if (exitTime <= entryTime) {
+        console.error(`Erro: exitTime (${exitTime}) é menor ou igual a entryTime (${entryTime}) para cliente ${client.id}`);
+        return sum;
+      }
+  
+      // Calcula tempo de serviço em minutos
+      const serviceTime = (exitTime.getTime() - entryTime.getTime()) / 60000; // Convertendo de ms para minutos
+      console.log(`Cliente ${client.id}: Tempo de serviço calculado = ${serviceTime.toFixed(2)} minutos`);
+  
+      return sum + serviceTime;
+    }, 0);
+  
+    if (totalServiceTime === 0) {
+      console.warn(`Nenhum cliente teve um tempo de atendimento válido para calcular a média.`);
+      return { estimatedTime: 0 };
+    }
+  
+    // Calcula tempo médio por cliente corretamente
+    const avgServiceTimePerClient = totalServiceTime / validClients.length;
+    console.log(`Tempo médio por cliente: ${avgServiceTimePerClient.toFixed(2)} minutos`);
+  
+    // Buscar clientes atualmente na fila para estimar tempo de espera
+    const fila = await this.filaRepository.findByIdWithRelations(filaId);
+    if (!fila || !fila.clients) {
+      return { estimatedTime: 0 };
+    }
+  
+    // Calcula tempo estimado de espera com base no tempo médio de atendimento
+    const estimatedTime = fila.clients.length * avgServiceTimePerClient;
+  
+    console.log(`Tempo estimado de espera para novos clientes: ${estimatedTime.toFixed(2)} minutos`);
+  
+    return { estimatedTime };
+  }    
 }
   

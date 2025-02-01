@@ -101,6 +101,13 @@ export class FilaGateway {
         socket.emit('error', { message: 'Fila não encontrada' });
         return;
       }
+
+      if (fila.clients.length >= fila.max) {
+        console.warn(`Fila ${filaId} está cheia. Capacidade máxima: ${fila.max} pessoas.`);
+        socket.emit('error', { message: 'Fila está cheia. Aguarde disponibilidade.' });
+        return;
+      }
+
       const position = fila.clients.length + 1;
   
       const client = new Client();
@@ -108,6 +115,8 @@ export class FilaGateway {
       client.telefone = telefone;
       client.fila = fila;
       client.position = position;
+      client.lastFilaId = fila.id.toString();
+      client.entryTime = new Date();
   
       await this.clientRepository.create(client);
   
@@ -154,6 +163,7 @@ export class FilaGateway {
       const calledClient = fila.clients.shift();
   
       if (calledClient) {
+        calledClient.exitTime = new Date();
         fila.calledClient = calledClient;
         calledClient.fila = null;
         await this.clientRepository.create(calledClient);
@@ -179,7 +189,6 @@ export class FilaGateway {
   @SubscribeMessage('queueUrlUpdated')
   async notifyQueueUrlUpdate(filaId: string, updatedUrl: string): Promise<void> {
     try {      
-      console.log(`Emitindo evento queueUrlUpdated com URL: ${updatedUrl}`);
       this.server.to(filaId).emit('queueUrlUpdated', { filaId, url: updatedUrl });
     } catch (error) {
       console.error(`Erro ao emitir evento:`, error);

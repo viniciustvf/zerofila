@@ -91,4 +91,18 @@ export class FilaSocketService {
     }
     return of(void 0);
   }
+
+  listenForErrors(): Observable<{ message: string }> {
+    return new Observable<{ message: string }>((observer) => {
+      const errorHandler = (errorData: { message: string }) => {
+        console.error('Erro recebido do WebSocket:', errorData.message);
+        observer.next(errorData);
+        this.socket.off('error', errorHandler);
+      };
+  
+      this.socket.on('error', errorHandler);
+  
+      return () => this.socket.off('error', errorHandler);
+    });
+  }
 }

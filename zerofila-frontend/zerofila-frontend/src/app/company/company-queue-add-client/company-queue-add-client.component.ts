@@ -78,6 +78,13 @@ export class CompanyQueueAddClientComponent {
       filaId: this.queueId,
       name: this.clientName,
     });
+    this.filaSocketService.listenForErrors().subscribe((error) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: error.message,
+      });
+    });
     window.history.back();
   }  
 

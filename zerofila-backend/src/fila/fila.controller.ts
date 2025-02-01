@@ -169,5 +169,11 @@ import {
         throw error;
       }
     }
+
+    @Get(':filaId/estimated-time')
+    @Public()
+    async getEstimatedTime(@Param('filaId') filaId: string) {
+      return this.filaService.getEstimatedWaitTime(filaId);
+    }
   }
   

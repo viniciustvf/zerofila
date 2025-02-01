@@ -57,7 +57,6 @@ export class FilaTypeOrmRepository implements FilaRepository {
     id: string,
     fila: Fila,
   ): Promise<UpdateResult> {
-    console.log(fila)
     return await this.filaRepository.update(
       {
         id: +id,

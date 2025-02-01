@@ -1,4 +1,16 @@
 <div *ngIf="url" style="text-align: center; color: white; margin-top: 130px;">
+    <div class="copiar">
+        <p *ngIf="copied" style="color: lightgreen; margin-top: 10px;">URL copiada com sucesso!</p>
+        <button
+        pButton
+        type="button"
+        (click)="copyToClipboard()"
+        label="Salvar"
+        class="submit-button"
+      >
+        <i class="pi pi-copy"></i> Copiar URL
+      </button>
+    </div>
     <div #qrcodeContainer id="qrcode-container">
         <img src="z-animated.gif" style="width: 70px; margin-top: 350px;">
     </div>
