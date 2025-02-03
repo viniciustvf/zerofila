@@ -11,6 +11,7 @@ import { CompanyQueueAddClientComponent } from './company/company-queue-add-clie
 import { CompanyQueueQrcodeComponent } from './company/company-queue-qrcode/company-queue-qrcode.component';
 import { ErrorComponent } from './error/error.component';
 import { AuthGuard } from './company/login/guards/auth.guard';
+import { CompanyPerfilFormComponent } from './company/company-perfil-form/company-perfil-form.component';
 
 export const routes: Routes = [
     { path: 'company-queue', component: CompanyQueueComponent, canActivate: [AuthGuard] },
@@ -18,6 +19,8 @@ export const routes: Routes = [
     { path: 'company-queue-list', component: CompanyQueueListComponent, canActivate: [AuthGuard] },
     { path: 'company-queue-form', component: CompanyQueueFormComponent, canActivate: [AuthGuard] },
     { path: 'company-queue-qrcode', component: CompanyQueueQrcodeComponent, canActivate: [AuthGuard] },
+    { path: 'company-perfil-form', component: CompanyPerfilFormComponent, canActivate: [AuthGuard] },
+
     { path: 'error', component: ErrorComponent },
 
     { path: 'client-queue-form', component: ClientQueueFormComponent },

@@ -1,18 +1,18 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
-  CommonModule,
-  NgClass,
-  NgIf,
-  NgStyle,
-  NgTemplateOutlet
-} from "./chunk-C5GQDU7H.js";
-import {
   Footer,
   Header,
   ObjectUtils,
   PrimeTemplate,
   SharedModule
 } from "./chunk-DZCM7IXS.js";
+import {
+  CommonModule,
+  NgClass,
+  NgIf,
+  NgStyle,
+  NgTemplateOutlet
+} from "./chunk-C5GQDU7H.js";
 import {
   ChangeDetectionStrategy,
   Component,

@@ -1,0 +1,67 @@
+<div class="fila-container">
+    <div class="form-container">
+      <h1 style="color: white; font-weight: 300; font-size: 25px; margin-left: 20px;">
+        <span style="display: block;">Perfil da</span>
+        sua <strong>Empresa!</strong>
+      </h1>
+      <hr style="margin-bottom: 50px; border: 0; border-top: 0.5px solid white; width: 330px;">
+  
+      <!-- Campo Nome da Empresa -->
+      <div class="input-group">
+        <input
+          [(ngModel)]="empresa.name"
+          type="text"
+          id="empresaName"
+          placeholder="Nome da Empresa"
+          class="input-field"
+        />
+        <small *ngIf="!empresa.name && submitted" class="error-message">
+          O nome da empresa é obrigatório.
+        </small>
+      </div>
+  
+      <!-- Campo Username -->
+      <div class="input-group">
+        <input
+          [(ngModel)]="empresa.username"
+          type="text"
+          id="empresaUsername"
+          placeholder="Username"
+          class="input-field"
+        />
+        <small *ngIf="!empresa.username && submitted" class="error-message">
+          O username é obrigatório.
+        </small>
+      </div>
+  
+      <!-- Campo Email -->
+      <div class="input-group">
+        <input
+          [(ngModel)]="empresa.email"
+          type="email"
+          id="empresaEmail"
+          placeholder="E-mail"
+          class="input-field"
+        />
+        <small *ngIf="!empresa.email && submitted" class="error-message">
+          O e-mail é obrigatório.
+        </small>
+      </div>
+  
+      <div class="button-container">
+        <button
+          pButton
+          type="button"
+          (click)="onSubmit()"
+          label="Salvar"
+          class="submit-button"
+        >
+        </button>
+      </div>
+  
+      <div class="footer-text">
+        <p>zero<strong>fila</strong></p>
+        <p class="powered-by">Powered by H&V</p>
+      </div>
+    </div>
+  </div>  

@@ -3,13 +3,26 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { StorageService } from './services/storage.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ToastModule, NgxMaskDirective, NgxMaskPipe, CommonModule],
+  imports: [
+    RouterOutlet,
+    ToastModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+    CommonModule,
+    ConfirmDialogModule,
+  ],
+  providers: [ConfirmationService, MessageService],
   styleUrl: './app.component.scss',
   template: `
+    <p-confirmDialog></p-confirmDialog>
+    
     <div class="menu" *ngIf="showMenu">
       <!-- Ícones de Voltar e Menu ficam à esquerda -->
       <div class="menu-left">
@@ -17,7 +30,9 @@ import { CommonModule } from '@angular/common';
           <div *ngIf="showBackIcon" class="back-icon" (click)="voltar()" aria-label="Voltar">          
             <img src="back.png" alt="Voltar">
           </div>
-          <div *ngIf="showMenuIcon" class="menu-icon" aria-label="Abrir Menu">&#9776;</div>
+          <div *ngIf="showMenuIcon" class="menu-icon" (click)="confirmLogout()" aria-label="Sair">
+            <img src="logout.png" style="width: 30px;" alt="Logout" />
+          </div>
         </div>
       </div>
 
@@ -26,6 +41,7 @@ import { CommonModule } from '@angular/common';
         <img src="Z.png" alt="Logo Zero Fila">
       </div>
     </div>
+
     <router-outlet></router-outlet>
     <p-toast></p-toast>
   `,
@@ -37,7 +53,12 @@ export class AppComponent {
   showBackIcon: boolean = false;
   showMenu: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit() {
     this.router.events.subscribe(event => {
@@ -51,5 +72,26 @@ export class AppComponent {
 
   voltar(): void {
     window.history.back();
+  }
+
+  confirmLogout(): void {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja sair do sistema?',
+      header: 'Confirmação de Logout',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => this.logout(),
+    });
+  }
+
+  logout(): void {
+    this.storageService.removeItem('accessToken');
+    this.storageService.removeItem('empresa');
+    this.storageService.removeItem('refreshToken');
+
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 1000);
   }
 }

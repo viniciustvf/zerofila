@@ -11,6 +11,7 @@ import { StorageService } from '../../services/storage.service';
 export class QueueService {
 
   private apiUrl = 'http://localhost:3000/api/fila';
+  private empresaUrl = 'http://localhost:3000/api/empresa';
 
   constructor(private http: HttpClient, private storageService: StorageService) {}
 
@@ -34,15 +35,32 @@ export class QueueService {
     return this.http.post<Fila>(this.apiUrl, fila, { headers: this.getHeaders() });
   }
 
-    /**
-   * Atualiza uma fila existente.
-   * @param filaId ID da fila a ser atualizada
-   * @param filaData Dados a serem atualizados
-   * @returns Observable com a resposta do backend
-   */
-    updateFila(filaId: number, filaData: Partial<Fila>): Observable<any> {
-      return this.http.put<any>(`${this.apiUrl}/${filaId}`, filaData, { headers: this.getHeaders() });
-    }
+  /**
+ * Atualiza uma fila existente.
+ * @param filaId ID da fila a ser atualizada
+ * @param filaData Dados a serem atualizados
+ * @returns Observable com a resposta do backend
+ */
+  updateFila(filaId: number, filaData: Partial<Fila>): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${filaId}`, filaData, { headers: this.getHeaders() });
+  }
+
+  /**
+ * Atualiza os dados da empresa.
+ * @param empresaId ID da empresa
+ * @param empresaData Dados a serem atualizados
+ * @returns Observable com a resposta do backend
+ */
+  updateEmpresa(empresaId: number, empresaData: any): Observable<any> {
+    const empresaUpdate = { ...empresaData };
+    delete empresaUpdate.password;
+    delete empresaUpdate.id;
+
+    console.log(empresaUpdate, 'EMPRESA A SER ATUALIZADA')
+    return this.http.put<any>(`${this.empresaUrl}/${empresaId}`, empresaUpdate, {
+      headers: this.getHeaders(),
+    });
+  }
 
   /**
    * Busca todas as filas.
@@ -85,6 +103,17 @@ export class QueueService {
    */
   findById(filaId: string): Observable<Fila> {
     return this.http.get<Fila>(`${this.apiUrl}/findByIdWithRelations/${filaId}`, { headers: this.getHeaders() });
+  }
+
+  /**
+   * Busca uma empresa pelo ID.
+   * @param empresaId ID da empresa a ser buscada
+   * @returns Observable com os dados da empresa encontrada
+   */
+  findEmpresaById(empresaId: number): Observable<any> {
+    return this.http.get<any>(`${this.empresaUrl}/${empresaId}`, {
+      headers: this.getHeaders(),
+    });
   }
 
   /**

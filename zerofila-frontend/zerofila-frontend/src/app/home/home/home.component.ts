@@ -30,4 +30,8 @@ export class HomeComponent implements OnInit {
   abrirFilas(): void {
     this.router.navigate(['/company-queue-list']);
   }
+
+  abrirEmpresa(): void {
+    this.router.navigate(['/company-perfil-form']);
+  }
 }

@@ -21,7 +21,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthGuard } from '../iam/login/decorators/auth-guard.decorator';
+import { AuthGuard, Public } from '../iam/login/decorators/auth-guard.decorator';
 import { AuthType } from '../iam/login/enums/auth-type.enum';
 
 @ApiTags('empresa')
@@ -107,16 +107,21 @@ export class EmpresaController {
     @Body() empresaUpdateDto: EmpresaUpdateDto,
   ): Promise<any> {
     try {
-      await this.empresaService.updateEmpresa(empresaId, empresaUpdateDto);
-
+      const id = Number(empresaId);
+      if (isNaN(id)) {
+        throw new BadRequestException('Invalid empresaId');
+      }
+  
+      await this.empresaService.updateEmpresa(id.toString(), empresaUpdateDto);
+  
       return {
-        message: 'empresa Updated successfully!',
+        message: 'Empresa Updated successfully!',
         status: HttpStatus.OK,
       };
     } catch (err) {
-      throw new BadRequestException(err, 'Error: empresa not updated!');
+      throw new BadRequestException('Error: empresa not updated!', err);
     }
-  }
+  }  
 
   @Delete('/:empresaId')
   @ApiResponse({

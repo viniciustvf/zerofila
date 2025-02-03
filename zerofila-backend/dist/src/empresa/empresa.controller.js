@@ -55,14 +55,18 @@ let EmpresaController = class EmpresaController {
     }
     async updateEmpresa(empresaId, empresaUpdateDto) {
         try {
-            await this.empresaService.updateEmpresa(empresaId, empresaUpdateDto);
+            const id = Number(empresaId);
+            if (isNaN(id)) {
+                throw new common_1.BadRequestException('Invalid empresaId');
+            }
+            await this.empresaService.updateEmpresa(id.toString(), empresaUpdateDto);
             return {
-                message: 'empresa Updated successfully!',
+                message: 'Empresa Updated successfully!',
                 status: common_1.HttpStatus.OK,
             };
         }
         catch (err) {
-            throw new common_1.BadRequestException(err, 'Error: empresa not updated!');
+            throw new common_1.BadRequestException('Error: empresa not updated!', err);
         }
     }
     async deleteEmpresa(empresaId) {
@@ -126,6 +130,7 @@ __decorate([
 ], EmpresaController.prototype, "updateEmpresaProfile", null);
 __decorate([
     (0, common_1.Put)('/:empresaId'),
+    (0, auth_guard_decorator_1.Public)(),
     (0, swagger_1.ApiResponse)({
         status: 200,
         description: 'Update a empresa by id',
