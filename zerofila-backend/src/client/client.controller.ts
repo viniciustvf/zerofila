@@ -26,7 +26,7 @@ import {
   import { Client } from './models/client.model';
   
   @ApiTags('client')
-  //@ApiBearerAuth()
+  @ApiBearerAuth()
   @AuthGuard(AuthType.None)
   @Controller('client')
   export class ClientController {
@@ -105,5 +105,44 @@ import {
     public async deleteClient(@Param('clientId') clientId: string): Promise<void> {
       await this.clientService.deleteClient(clientId);
     }
+
+    @Get('/empresa/:empresaId/clientes/:startDate/:endDate')
+    public async findClientsByEmpresaAndDate(
+      @Param('empresaId') empresaId: string,
+      @Param('startDate') startDate: string,
+      @Param('endDate') endDate: string
+    ): Promise<Client[]> {
+      try {
+        const formattedStartDate = this.convertToMySQLFormat(startDate, true);
+        const formattedEndDate = this.convertToMySQLFormat(endDate, false);
+    
+        console.log(`🔎 Buscando clientes da empresa ${empresaId} entre ${formattedStartDate} e ${formattedEndDate}`);
+    
+        const clientes = await this.clientService.findClientsByEmpresaAndDate(empresaId, formattedStartDate, formattedEndDate);
+    
+        console.log('✅ Clientes encontrados:', clientes);
+    
+        return clientes;
+      } catch (err) {
+        console.error('❌ Erro ao buscar clientes:', err);
+        throw new BadRequestException('Erro ao buscar clientes!', err);
+      }
+    }
+    
+    /**
+     * Converte uma data de `dd-MM-yyyy` para o formato MySQL `YYYY-MM-DD HH:MM:SS`
+     * @param dateStr Data no formato `dd-MM-yyyy`
+     * @param startOfDay Se `true`, retorna `00:00:00`, senão retorna `23:59:59`
+     */
+    private convertToMySQLFormat(dateStr: string, startOfDay: boolean): string {
+      const [day, month, year] = dateStr.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+    
+      const hours = startOfDay ? '00' : '23';
+      const minutes = startOfDay ? '00' : '59';
+      const seconds = startOfDay ? '00' : '59';
+    
+      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} ${hours}:${minutes}:${seconds}`;
+    }    
   }
   

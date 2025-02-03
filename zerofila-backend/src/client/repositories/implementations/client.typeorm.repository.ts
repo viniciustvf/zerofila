@@ -9,6 +9,23 @@ export class ClientTypeOrmRepository implements ClientRepository {
     private readonly hashingService: HashingService,
   ) {}
   
+  async findClientsByEmpresaAndDate(empresaId: string, startDate: string, endDate: string): Promise<Client[]> {
+    const queryBuilder = this.clientRepository
+      .createQueryBuilder('client')
+      .innerJoin('client.fila', 'fila')
+      .innerJoin('fila.empresa', 'empresa')
+      .where('empresa.id = :empresaId', { empresaId })
+      .andWhere('client.entryTime BETWEEN :startDate AND :endDate', { startDate, endDate })
+      .orderBy('client.entryTime', 'ASC');
+  
+    const [sql, parameters] = queryBuilder.getQueryAndParameters();
+  
+    console.log('📌 SQL Gerado:', sql);
+    console.log('📌 Parâmetros:', parameters);
+  
+    return await queryBuilder.getMany();
+  }
+  
   async findByLastFilaId(lastFilaId: string): Promise<Client[]> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);

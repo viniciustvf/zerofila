@@ -130,7 +130,6 @@ __decorate([
 ], EmpresaController.prototype, "updateEmpresaProfile", null);
 __decorate([
     (0, common_1.Put)('/:empresaId'),
-    (0, auth_guard_decorator_1.Public)(),
     (0, swagger_1.ApiResponse)({
         status: 200,
         description: 'Update a empresa by id',

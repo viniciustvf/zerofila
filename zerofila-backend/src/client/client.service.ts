@@ -74,5 +74,13 @@ import { FilaTypeOrmRepository } from '@/fila/repositories/implementations/fila.
       const client = await this.findById(id);
       return await this.clientRepository.deleteClient(client);
     }
+
+    public async findClientsByEmpresaAndDate(
+      empresaId: string,
+      startDate: string,
+      endDate: string
+    ): Promise<Client[]> {
+      return await this.clientRepository.findClientsByEmpresaAndDate(empresaId, startDate, endDate);
+    }
   }
   

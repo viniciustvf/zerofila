@@ -9,6 +9,7 @@ export interface ClientRepository {
   create(client: Client): void;
   updateClient(clientId: string, clientUpdateDto: ClientUpdateDto): void;
   deleteClient(id: string): void;
+  findClientsByEmpresaAndDate(empresaId: string, startDate: string, endDate: string): Promise<Client[]>;
 }
 
 export const CLIENT_REPOSITORY_TOKEN = 'client-repository-token';
